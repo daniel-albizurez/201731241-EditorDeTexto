@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace _201731241_EditorDeTexto
 {
     public partial class Form1 : Form
     {
+        AFD automata = new AFD();
         public Form1()
         {
             InitializeComponent();
@@ -34,6 +36,16 @@ namespace _201731241_EditorDeTexto
 
         private void txtCodigo_TextChanged(object sender, EventArgs e)
         {
+            lstErrores.Items.Clear();
+            foreach (string[] item in automata.Analizar(txtCodigo.Text))
+            {
+               int posicion = txtCodigo.SelectionStart;
+                txtCodigo.Select(Convert.ToInt32(item[5]), item[0].Length);
+                txtCodigo.SelectionColor = Color.FromName(item[4]);
+                txtCodigo.Select(posicion, 0);
+
+              lstErrores.Items.Add(item[0] + item[1] + ' ' + item[2] + ' ' + item[3]);
+            }
 
         }
 
@@ -61,10 +73,25 @@ namespace _201731241_EditorDeTexto
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            open
             if (openFileDialog1.ShowDialog() != DialogResult.Cancel)
             {
                 txtCodigo.Text = openFileDialog1.FileName;
+            }
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string[] lines = txtCodigo.Lines;
+
+                using (StreamWriter sw = new StreamWriter(saveFileDialog1.FileName))
+                {
+                    foreach (string line in lines)
+                    {
+                        sw.WriteLine(line);
+                    }
+                }
             }
         }
     }
