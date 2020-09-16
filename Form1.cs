@@ -58,5 +58,14 @@ namespace _201731241_EditorDeTexto
             lblLinea.Text = posicion[0].ToString();
             lblCol.Text = posicion[1].ToString();
         }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            open
+            if (openFileDialog1.ShowDialog() != DialogResult.Cancel)
+            {
+                txtCodigo.Text = openFileDialog1.FileName;
+            }
+        }
     }
 }
