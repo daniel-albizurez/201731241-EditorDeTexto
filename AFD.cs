@@ -11,11 +11,9 @@ public class AFD
                               30, 31
     };
     private string[] reservadas = { 
-        "SI", "SINO", "SINO_SI", "ENTONCES","MIENTRAS", "HACER", "DESDE"
+        "SI", "SINO", "SINO_SI", "MIENTRAS", "HACER", "DESDE", "HASTA", "INCREMENTO"
     };
-    private string alfabeto = "+-";
-    private string digitos = "0123456789";
-    private char punto = '.';
+    private string[] boolean = {"verdadero", "falso"};
     private int inicial = 0;
 
     //Listas que contienen los estados finales y una descripcion de la cadena resultante
@@ -212,7 +210,7 @@ public class AFD
         colores.Add(18, "blue");
         colores.Add(27, "blue");
         colores.Add(29, "blue");
-        colores.Add(25, "grey");
+        colores.Add(25, "gray");
         colores.Add(30, "blue");
         colores.Add(31, "magenta");
     }
@@ -273,7 +271,7 @@ public class AFD
             if (caracter == ' ' || caracter == '\n')
             {
                 //Si el estado fuera de comentario se ignora
-                if (!string.IsNullOrEmpty(token) && estadoActual != 11 && estadoActual != 13)
+                if (!string.IsNullOrEmpty(token) && estadoActual != 11 && estadoActual !=24 && estadoActual != 13)
                 {
                     ListarToken(token, estadoAnterior, fila, columna, posicion);
                     token = "";
@@ -281,7 +279,7 @@ public class AFD
                 }
                 columna++;
                 posicion++;
-                if (estadoActual == 11)
+                if (estadoActual == 11 || estadoActual == 24)
                 {
                     token += caracter;
                 }
@@ -340,11 +338,21 @@ public class AFD
         string color =
         colores.TryGetValue(estadoFinal, out color) ? color : "black";
         string tipo = Encontrado(estadoFinal);
-        if (estadoFinal == 9 && reservadas.Contains(token))
+        if (estadoFinal == 9 )
         {
-            color = "green";
-            tipo = "palabra reservada";
-        }
+            if (reservadas.Contains(token))
+            {
+                color = "green";
+                tipo = "palabra reservada";
+            } 
+            else if (boolean.Contains(token))
+            {
+                color = "orange";
+                tipo = "boolean";
+            }
+
+
+        } 
         resultados.Add(new string[] { token, tipo, fila.ToString(), columna.ToString(), color, (posicion - token.Length).ToString() });
     }
 

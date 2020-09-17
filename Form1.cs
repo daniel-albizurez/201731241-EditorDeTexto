@@ -14,6 +14,8 @@ namespace _201731241_EditorDeTexto
     public partial class Form1 : Form
     {
         AFD automata = new AFD();
+        bool documentoAbierto;
+        string nombreDocumento;
         public Form1()
         {
             InitializeComponent();
@@ -44,7 +46,10 @@ namespace _201731241_EditorDeTexto
                 txtCodigo.SelectionColor = Color.FromName(item[4]);
                 txtCodigo.Select(posicion, 0);
 
-              lstErrores.Items.Add(item[0] + item[1] + ' ' + item[2] + ' ' + item[3]);
+                if (item[1] == "Error")
+                {
+                    lstErrores.Items.Add(item[0] + item[1] + ' ' + item[2] + ' ' + item[3]);
+                }
             }
 
         }
@@ -75,24 +80,67 @@ namespace _201731241_EditorDeTexto
         {
             if (openFileDialog1.ShowDialog() != DialogResult.Cancel)
             {
-                txtCodigo.Text = openFileDialog1.FileName;
+                txtCodigo.Clear();
+                try
+                {
+                    using (StreamReader sr = new StreamReader(openFileDialog1.FileName))
+                    {
+                        string line;
+
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            txtCodigo.AppendText(line + "\n");
+                        }
+                        documentoAbierto = true;
+                        nombreDocumento = openFileDialog1.FileName;
+                    }
+                }
+                catch (Exception)
+                {
+                    lstErrores.Items.Add("Error al abrir el archivo: " + openFileDialog1.SafeFileName);
+                }
             }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            string nombre = null;
+            if (documentoAbierto)
+            {
+                nombre = nombreDocumento;
+            }
+            else if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                nombre = saveFileDialog1.FileName;
+            }
+
+            if (!String.IsNullOrEmpty(nombre))
             {
                 string[] lines = txtCodigo.Lines;
-
-                using (StreamWriter sw = new StreamWriter(saveFileDialog1.FileName))
+                using (StreamWriter sw = new StreamWriter(nombre))
                 {
                     foreach (string line in lines)
                     {
-                        sw.WriteLine(line);
+                        if (!String.IsNullOrEmpty(line))
+                        {
+                            sw.WriteLine(line);
+                        }
                     }
                 }
             }
+            newDocument();
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            newDocument();
+        }
+
+        private void newDocument()
+        {
+            txtCodigo.Clear();
+            nombreDocumento = "";
+            documentoAbierto = false;
         }
     }
 }
