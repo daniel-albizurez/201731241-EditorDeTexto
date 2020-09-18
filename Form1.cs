@@ -78,12 +78,12 @@ namespace _201731241_EditorDeTexto
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (abrirArchivo.ShowDialog() != DialogResult.Cancel)
+            if (dialogAbrirArchivo.ShowDialog() != DialogResult.Cancel)
             {
                 txtCodigo.Clear();
                 try
                 {
-                    using (StreamReader sr = new StreamReader(abrirArchivo.FileName))
+                    using (StreamReader sr = new StreamReader(dialogAbrirArchivo.FileName))
                     {
                         string line;
 
@@ -92,12 +92,12 @@ namespace _201731241_EditorDeTexto
                             txtCodigo.AppendText(line + "\n");
                         }
                         documentoAbierto = true;
-                        nombreDocumento = abrirArchivo.FileName;
+                        nombreDocumento = dialogAbrirArchivo.FileName;
                     }
                 }
                 catch (Exception)
                 {
-                    lstErrores.Items.Add("Error al abrir el archivo: " + abrirArchivo.SafeFileName);
+                    lstErrores.Items.Add("Error al abrir el archivo: " + dialogAbrirArchivo.SafeFileName);
                 }
             }
         }
@@ -109,9 +109,9 @@ namespace _201731241_EditorDeTexto
             {
                 nombre = nombreDocumento;
             }
-            else if (guardarArchivo.ShowDialog() == DialogResult.OK)
+            else if (dialogGuardarArchivo.ShowDialog() == DialogResult.OK)
             {
-                nombre = guardarArchivo.FileName;
+                nombre = dialogGuardarArchivo.FileName;
             }
 
             if (!String.IsNullOrEmpty(nombre))
@@ -146,9 +146,9 @@ namespace _201731241_EditorDeTexto
         private void exportarErroresToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string nombre = "";
-            if (exportarErrores.ShowDialog() == DialogResult.OK)
+            if (dialogExportarErrores.ShowDialog() == DialogResult.OK)
             {
-                nombre = exportarErrores.FileName;
+                nombre = dialogExportarErrores.FileName;
             }
 
             if (!String.IsNullOrEmpty(nombre))

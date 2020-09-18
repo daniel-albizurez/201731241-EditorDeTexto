@@ -30,9 +30,9 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nuevoArchivo = new System.Windows.Forms.ToolStripMenuItem();
+            this.abrirArchivo = new System.Windows.Forms.ToolStripMenuItem();
+            this.guardarArchivo = new System.Windows.Forms.ToolStripMenuItem();
             this.exportarErroresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -42,9 +42,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtCodigo = new System.Windows.Forms.RichTextBox();
             this.lstErrores = new System.Windows.Forms.ListBox();
-            this.abrirArchivo = new System.Windows.Forms.OpenFileDialog();
-            this.guardarArchivo = new System.Windows.Forms.SaveFileDialog();
-            this.exportarErrores = new System.Windows.Forms.SaveFileDialog();
+            this.dialogAbrirArchivo = new System.Windows.Forms.OpenFileDialog();
+            this.dialogGuardarArchivo = new System.Windows.Forms.SaveFileDialog();
+            this.dialogExportarErrores = new System.Windows.Forms.SaveFileDialog();
+            this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.proyectoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -66,34 +68,37 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newToolStripMenuItem,
-            this.openToolStripMenuItem,
-            this.saveToolStripMenuItem,
+            this.nuevoArchivo,
+            this.abrirArchivo,
+            this.guardarArchivo,
             this.exportarErroresToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // newToolStripMenuItem
+            // nuevoArchivo
             // 
-            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.newToolStripMenuItem.Text = "New";
-            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            this.nuevoArchivo.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.archivoToolStripMenuItem,
+            this.proyectoToolStripMenuItem});
+            this.nuevoArchivo.Name = "nuevoArchivo";
+            this.nuevoArchivo.Size = new System.Drawing.Size(180, 22);
+            this.nuevoArchivo.Text = "New";
+            this.nuevoArchivo.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
-            // openToolStripMenuItem
+            // abrirArchivo
             // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            this.abrirArchivo.Name = "abrirArchivo";
+            this.abrirArchivo.Size = new System.Drawing.Size(180, 22);
+            this.abrirArchivo.Text = "Open";
+            this.abrirArchivo.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
-            // saveToolStripMenuItem
+            // guardarArchivo
             // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            this.guardarArchivo.Name = "guardarArchivo";
+            this.guardarArchivo.Size = new System.Drawing.Size(180, 22);
+            this.guardarArchivo.Text = "Save";
+            this.guardarArchivo.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exportarErroresToolStripMenuItem
             // 
@@ -187,20 +192,32 @@
             this.lstErrores.Size = new System.Drawing.Size(756, 147);
             this.lstErrores.TabIndex = 0;
             // 
-            // abrirArchivo
+            // dialogAbrirArchivo
             // 
-            this.abrirArchivo.DefaultExt = "gt";
-            this.abrirArchivo.Filter = "GT Files|*.gt";
+            this.dialogAbrirArchivo.DefaultExt = "gt";
+            this.dialogAbrirArchivo.Filter = "GT Files|*.gt";
             // 
-            // guardarArchivo
+            // dialogGuardarArchivo
             // 
-            this.guardarArchivo.DefaultExt = "gt";
-            this.guardarArchivo.Filter = "GT Files|*.gt";
+            this.dialogGuardarArchivo.DefaultExt = "gt";
+            this.dialogGuardarArchivo.Filter = "GT Files|*.gt";
             // 
-            // exportarErrores
+            // dialogExportarErrores
             // 
-            this.exportarErrores.DefaultExt = "gte";
-            this.exportarErrores.Filter = "GTE Files|*.gte";
+            this.dialogExportarErrores.DefaultExt = "gte";
+            this.dialogExportarErrores.Filter = "GTE Files|*.gte";
+            // 
+            // archivoToolStripMenuItem
+            // 
+            this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
+            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.archivoToolStripMenuItem.Text = "Archivo";
+            // 
+            // proyectoToolStripMenuItem
+            // 
+            this.proyectoToolStripMenuItem.Name = "proyectoToolStripMenuItem";
+            this.proyectoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.proyectoToolStripMenuItem.Text = "Proyecto";
             // 
             // Form1
             // 
@@ -230,19 +247,21 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.RichTextBox txtCodigo;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem nuevoArchivo;
+        private System.Windows.Forms.ToolStripMenuItem guardarArchivo;
+        private System.Windows.Forms.ToolStripMenuItem abrirArchivo;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.Label lblCol;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblLinea;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListBox lstErrores;
-        private System.Windows.Forms.OpenFileDialog abrirArchivo;
-        private System.Windows.Forms.SaveFileDialog guardarArchivo;
+        private System.Windows.Forms.OpenFileDialog dialogAbrirArchivo;
+        private System.Windows.Forms.SaveFileDialog dialogGuardarArchivo;
         private System.Windows.Forms.ToolStripMenuItem exportarErroresToolStripMenuItem;
-        private System.Windows.Forms.SaveFileDialog exportarErrores;
+        private System.Windows.Forms.SaveFileDialog dialogExportarErrores;
+        private System.Windows.Forms.ToolStripMenuItem archivoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem proyectoToolStripMenuItem;
     }
 }
 
