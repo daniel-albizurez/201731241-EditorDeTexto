@@ -39,7 +39,6 @@ namespace _201731241_EditorDeTexto
 
         private void txtCodigo_TextChanged(object sender, EventArgs e)
         {
-            cambios = documentoAbierto;
             lstErrores.Items.Clear();
             foreach (string[] item in automata.Analizar(txtCodigo.Text))
             {
@@ -52,6 +51,7 @@ namespace _201731241_EditorDeTexto
                 {
                     lstErrores.Items.Add(item[0] + ' ' + item[1] + " Linea: " + item[2] + " Columna: " + item[3]);
                 }
+                cambios = documentoAbierto;
             }
 
         }
@@ -153,6 +153,7 @@ namespace _201731241_EditorDeTexto
             txtCodigo.Clear();
             nombreDocumento = "";
             documentoAbierto = false;
+            cambios = false;
             this.Text = "Editor de archivos GT";
         }
 

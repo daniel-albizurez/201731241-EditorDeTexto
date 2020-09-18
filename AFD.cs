@@ -95,9 +95,11 @@ public class AFD
 
         d8.Add('l', 9);
         d8.Add('d', 9);
+        d8.Add('_', 9);
 
         d9.Add('l', 9);
         d9.Add('d', 9);
+        d9.Add('_', 9);
 
         d10.Add('/', 11);
         d10.Add('*', 12);
@@ -277,9 +279,12 @@ public class AFD
             if (caracter == ' ' || caracter == '\n')
             {
                 //Si el estado fuera de comentario se ignora
-                if (!string.IsNullOrEmpty(token) && estadoActual != 11 && estadoActual !=24 && estadoActual != 13)
+                if (estadoActual != 11 && estadoActual !=24 && estadoActual != 13)
                 {
-                    ListarToken(token, estadoAnterior, fila, columna, posicion);
+                    if (!string.IsNullOrEmpty(token))
+                    {
+                        ListarToken(token, estadoAnterior, fila, columna, posicion);
+                    }
                     token = "";
                     estadoActual = inicial;
                 }
