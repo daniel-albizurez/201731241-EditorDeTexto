@@ -122,6 +122,7 @@ public class AFD
         d22.Add('=', 21);
 
         d23.Add('a', 24);
+        d23.Add('\"', 25);
 
         d24.Add('\"', 25);
         d24.Add('a', 24);
