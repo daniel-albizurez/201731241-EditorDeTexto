@@ -179,10 +179,10 @@ namespace _201731241_EditorDeTexto
                 {
                     foreach (string line in lines)
                     {
-                        if (!String.IsNullOrEmpty(line))
-                        {
+                        /*if (!String.IsNullOrEmpty(line))
+                        {*/
                             sw.WriteLine(line);
-                        }
+                        /*}*/
                     }
                 }
             }
