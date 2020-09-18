@@ -33,6 +33,7 @@
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportarErroresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.lblCol = new System.Windows.Forms.Label();
@@ -41,8 +42,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtCodigo = new System.Windows.Forms.RichTextBox();
             this.lstErrores = new System.Windows.Forms.ListBox();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.abrirArchivo = new System.Windows.Forms.OpenFileDialog();
+            this.guardarArchivo = new System.Windows.Forms.SaveFileDialog();
+            this.exportarErrores = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -66,7 +68,8 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
-            this.saveToolStripMenuItem});
+            this.saveToolStripMenuItem,
+            this.exportarErroresToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -74,23 +77,29 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // exportarErroresToolStripMenuItem
+            // 
+            this.exportarErroresToolStripMenuItem.Name = "exportarErroresToolStripMenuItem";
+            this.exportarErroresToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.exportarErroresToolStripMenuItem.Text = "Exportar Errores";
             // 
             // editToolStripMenuItem
             // 
@@ -177,14 +186,20 @@
             this.lstErrores.Size = new System.Drawing.Size(756, 147);
             this.lstErrores.TabIndex = 0;
             // 
-            // openFileDialog1
+            // abrirArchivo
             // 
-            this.openFileDialog1.DefaultExt = "gt";
-            this.openFileDialog1.Filter = "GT Files|*.gt";
+            this.abrirArchivo.DefaultExt = "gt";
+            this.abrirArchivo.Filter = "GT Files|*.gt";
             // 
-            // saveFileDialog1
+            // guardarArchivo
             // 
-            this.saveFileDialog1.DefaultExt = "gt";
+            this.guardarArchivo.DefaultExt = "gt";
+            this.guardarArchivo.Filter = "GT Files|*.gt";
+            // 
+            // exportarErrores
+            // 
+            this.exportarErrores.DefaultExt = "gte";
+            this.exportarErrores.Filter = "GTE Files|*.gte";
             // 
             // Form1
             // 
@@ -223,8 +238,10 @@
         private System.Windows.Forms.Label lblLinea;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListBox lstErrores;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.OpenFileDialog abrirArchivo;
+        private System.Windows.Forms.SaveFileDialog guardarArchivo;
+        private System.Windows.Forms.ToolStripMenuItem exportarErroresToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog exportarErrores;
     }
 }
 

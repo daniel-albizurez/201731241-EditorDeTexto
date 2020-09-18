@@ -78,12 +78,12 @@ namespace _201731241_EditorDeTexto
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() != DialogResult.Cancel)
+            if (abrirArchivo.ShowDialog() != DialogResult.Cancel)
             {
                 txtCodigo.Clear();
                 try
                 {
-                    using (StreamReader sr = new StreamReader(openFileDialog1.FileName))
+                    using (StreamReader sr = new StreamReader(abrirArchivo.FileName))
                     {
                         string line;
 
@@ -92,12 +92,12 @@ namespace _201731241_EditorDeTexto
                             txtCodigo.AppendText(line + "\n");
                         }
                         documentoAbierto = true;
-                        nombreDocumento = openFileDialog1.FileName;
+                        nombreDocumento = abrirArchivo.FileName;
                     }
                 }
                 catch (Exception)
                 {
-                    lstErrores.Items.Add("Error al abrir el archivo: " + openFileDialog1.SafeFileName);
+                    lstErrores.Items.Add("Error al abrir el archivo: " + abrirArchivo.SafeFileName);
                 }
             }
         }
@@ -109,9 +109,9 @@ namespace _201731241_EditorDeTexto
             {
                 nombre = nombreDocumento;
             }
-            else if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            else if (guardarArchivo.ShowDialog() == DialogResult.OK)
             {
-                nombre = saveFileDialog1.FileName;
+                nombre = guardarArchivo.FileName;
             }
 
             if (!String.IsNullOrEmpty(nombre))
