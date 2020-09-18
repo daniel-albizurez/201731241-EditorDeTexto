@@ -1,6 +1,6 @@
 ﻿namespace _201731241_EditorDeTexto
 {
-    partial class Form1
+    partial class editor
     {
         /// <summary>
         /// Required designer variable.
@@ -78,21 +78,21 @@
             // 
             this.nuevoArchivo.Name = "nuevoArchivo";
             this.nuevoArchivo.Size = new System.Drawing.Size(180, 22);
-            this.nuevoArchivo.Text = "New";
+            this.nuevoArchivo.Text = "Nuevo";
             this.nuevoArchivo.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // abrirArchivo
             // 
             this.abrirArchivo.Name = "abrirArchivo";
             this.abrirArchivo.Size = new System.Drawing.Size(180, 22);
-            this.abrirArchivo.Text = "Open";
+            this.abrirArchivo.Text = "Abrir";
             this.abrirArchivo.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // guardarArchivo
             // 
             this.guardarArchivo.Name = "guardarArchivo";
             this.guardarArchivo.Size = new System.Drawing.Size(180, 22);
-            this.guardarArchivo.Text = "Save";
+            this.guardarArchivo.Text = "Guardar";
             this.guardarArchivo.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exportarErroresToolStripMenuItem
@@ -202,7 +202,7 @@
             this.dialogExportarErrores.DefaultExt = "gte";
             this.dialogExportarErrores.Filter = "GTE Files|*.gte";
             // 
-            // Form1
+            // editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -210,8 +210,8 @@
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "editor";
+            this.Text = "Editor de archivos GT";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);

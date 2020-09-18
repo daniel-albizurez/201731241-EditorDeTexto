@@ -11,12 +11,13 @@ using System.Windows.Forms;
 
 namespace _201731241_EditorDeTexto
 {
-    public partial class Form1 : Form
+    public partial class editor : Form
     {
         AFD automata = new AFD();
         bool documentoAbierto;
         string nombreDocumento;
-        public Form1()
+        bool cambios;
+        public editor()
         {
             InitializeComponent();
         }
@@ -38,6 +39,7 @@ namespace _201731241_EditorDeTexto
 
         private void txtCodigo_TextChanged(object sender, EventArgs e)
         {
+            cambios = documentoAbierto;
             lstErrores.Items.Clear();
             foreach (string[] item in automata.Analizar(txtCodigo.Text))
             {
@@ -78,6 +80,7 @@ namespace _201731241_EditorDeTexto
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            newDocument();
             if (dialogAbrirArchivo.ShowDialog() != DialogResult.Cancel)
             {
                 txtCodigo.Clear();
@@ -93,6 +96,7 @@ namespace _201731241_EditorDeTexto
                         }
                         documentoAbierto = true;
                         nombreDocumento = dialogAbrirArchivo.FileName;
+                        this.Text += ": " + dialogAbrirArchivo.SafeFileName;
                     }
                 }
                 catch (Exception)
@@ -104,31 +108,31 @@ namespace _201731241_EditorDeTexto
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string nombre = null;
-            if (documentoAbierto)
-            {
-                nombre = nombreDocumento;
-            }
-            else if (dialogGuardarArchivo.ShowDialog() == DialogResult.OK)
-            {
-                nombre = dialogGuardarArchivo.FileName;
-            }
-
-            if (!String.IsNullOrEmpty(nombre))
-            {
-                string[] lines = txtCodigo.Lines;
-                using (StreamWriter sw = new StreamWriter(nombre))
-                {
-                    foreach (string line in lines)
-                    {
-                        if (!String.IsNullOrEmpty(line))
+            /*            string nombre = null;
+                        if (documentoAbierto)
                         {
-                            sw.WriteLine(line);
+                            nombre = nombreDocumento;
                         }
-                    }
-                }
-            }
-            newDocument();
+                        else if (dialogGuardarArchivo.ShowDialog() == DialogResult.OK)
+                        {
+                            nombre = dialogGuardarArchivo.FileName;
+                        }
+
+                        if (!String.IsNullOrEmpty(nombre))
+                        {
+                            string[] lines = txtCodigo.Lines;
+                            using (StreamWriter sw = new StreamWriter(nombre))
+                            {
+                                foreach (string line in lines)
+                                {
+                                    if (!String.IsNullOrEmpty(line))
+                                    {
+                                        sw.WriteLine(line);
+                                    }
+                                }
+                            }
+                        }*/
+            Guardar(false);
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -138,22 +142,38 @@ namespace _201731241_EditorDeTexto
 
         private void newDocument()
         {
+            if (cambios)
+            {
+                DialogResult resultado =  MessageBox.Show("Desea guardar los cambios a " + nombreDocumento, "Guardar", MessageBoxButtons.YesNo);
+                if (resultado == DialogResult.Yes)
+                {
+                    Guardar(false);
+                }
+            }
             txtCodigo.Clear();
             nombreDocumento = "";
             documentoAbierto = false;
+            this.Text = "Editor de archivos GT";
         }
 
-        private void exportarErroresToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Guardar(bool Error)
         {
-            string nombre = "";
-            if (dialogExportarErrores.ShowDialog() == DialogResult.OK)
+            SaveFileDialog dialog = (Error) ? dialogExportarErrores : dialogGuardarArchivo ;
+
+            string[] lines = (Error) ? lstErrores.Items.OfType<string>().ToArray() : txtCodigo.Lines;
+
+            string nombre = null;
+            if (documentoAbierto && !Error)
             {
-                nombre = dialogExportarErrores.FileName;
+                nombre = nombreDocumento;
+            }
+            else if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                nombre = dialog.FileName;
             }
 
             if (!String.IsNullOrEmpty(nombre))
             {
-                string[] lines = lstErrores.Items.OfType<string>().ToArray();
                 using (StreamWriter sw = new StreamWriter(nombre))
                 {
                     foreach (string line in lines)
@@ -165,6 +185,31 @@ namespace _201731241_EditorDeTexto
                     }
                 }
             }
+        }
+
+        private void exportarErroresToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            /*            string nombre = "";
+                        if (dialogExportarErrores.ShowDialog() == DialogResult.OK)
+                        {
+                            nombre = dialogExportarErrores.FileName;
+                        }
+
+                        if (!String.IsNullOrEmpty(nombre))
+                        {
+                            string[] lines = lstErrores.Items.OfType<string>().ToArray();
+                            using (StreamWriter sw = new StreamWriter(nombre))
+                            {
+                                foreach (string line in lines)
+                                {
+                                    if (!String.IsNullOrEmpty(line))
+                                    {
+                                        sw.WriteLine(line);
+                                    }
+                                }
+                            }
+                        }*/
+            Guardar(true);
         }
     }
 }
