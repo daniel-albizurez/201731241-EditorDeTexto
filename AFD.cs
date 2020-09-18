@@ -11,7 +11,7 @@ public class AFD
                               30, 31
     };
     private string[] reservadas = { 
-        "SI", "SINO", "SINO_SI", "MIENTRAS", "HACER", "DESDE", "HASTA", "INCREMENTO"
+       "entero", "decimal", "cadena", "booleano", "caracter", "SI", "SINO", "SINO_SI", "MIENTRAS", "HACER", "DESDE", "HASTA", "INCREMENTO"
     };
     private string[] boolean = {"verdadero", "falso"};
     private int inicial = 0;
@@ -202,6 +202,9 @@ public class AFD
         colores.Add(8, "brown");
         colores.Add(9, "black");
         colores.Add(11, "red");
+        colores.Add(12, "red");
+        colores.Add(13, "red");
+        colores.Add(14, "red");
         colores.Add(15, "red");
         colores.Add(16, "magenta");
         colores.Add(17, "blue");
@@ -211,6 +214,8 @@ public class AFD
         colores.Add(18, "blue");
         colores.Add(27, "blue");
         colores.Add(29, "blue");
+        colores.Add(23, "gray");
+        colores.Add(24, "gray");
         colores.Add(25, "gray");
         colores.Add(30, "blue");
         colores.Add(31, "magenta");
