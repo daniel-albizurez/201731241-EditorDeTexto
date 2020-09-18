@@ -98,8 +98,9 @@
             // exportarErroresToolStripMenuItem
             // 
             this.exportarErroresToolStripMenuItem.Name = "exportarErroresToolStripMenuItem";
-            this.exportarErroresToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.exportarErroresToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exportarErroresToolStripMenuItem.Text = "Exportar Errores";
+            this.exportarErroresToolStripMenuItem.Click += new System.EventHandler(this.exportarErroresToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 

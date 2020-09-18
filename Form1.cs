@@ -142,5 +142,30 @@ namespace _201731241_EditorDeTexto
             nombreDocumento = "";
             documentoAbierto = false;
         }
+
+        private void exportarErroresToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string nombre = "";
+            if (guardarArchivo.ShowDialog() == DialogResult.OK)
+            {
+                nombre = guardarArchivo.FileName;
+            }
+
+            if (!String.IsNullOrEmpty(nombre))
+            {
+                string[] lines = lstErrores.Items.OfType<string>().ToArray();
+                using (StreamWriter sw = new StreamWriter(nombre))
+                {
+                    foreach (string line in lines)
+                    {
+                        if (!String.IsNullOrEmpty(line))
+                        {
+                            sw.WriteLine(line);
+                        }
+                    }
+                }
+            }
+            newDocument();
+        }
     }
 }
