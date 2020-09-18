@@ -48,7 +48,7 @@ namespace _201731241_EditorDeTexto
 
                 if (item[1] == "Error")
                 {
-                    lstErrores.Items.Add(item[0] + item[1] + ' ' + item[2] + ' ' + item[3]);
+                    lstErrores.Items.Add(item[0] + ' ' + item[1] + " Linea: " + item[2] + " Columna: " + item[3]);
                 }
             }
 
