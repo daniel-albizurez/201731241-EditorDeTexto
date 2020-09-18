@@ -146,9 +146,9 @@ namespace _201731241_EditorDeTexto
         private void exportarErroresToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string nombre = "";
-            if (guardarArchivo.ShowDialog() == DialogResult.OK)
+            if (exportarErrores.ShowDialog() == DialogResult.OK)
             {
-                nombre = guardarArchivo.FileName;
+                nombre = exportarErrores.FileName;
             }
 
             if (!String.IsNullOrEmpty(nombre))
@@ -165,7 +165,6 @@ namespace _201731241_EditorDeTexto
                     }
                 }
             }
-            newDocument();
         }
     }
 }
