@@ -39,13 +39,22 @@ namespace _201731241_EditorDeTexto
 
         private void txtCodigo_TextChanged(object sender, EventArgs e)
         {
+            // Se vacía la lista de errores
             lstErrores.Items.Clear();
+            // Se guarda la posición actual del cursor 
+            int posicion = txtCodigo.SelectionStart;
+            /**
+             * Para que la edición de la caja de texto se vea
+             * de manera limpia, se oculta la selección
+             * y se enfoca otro objeto mientras se realiza el análisis lexico
+             */
+            txtCodigo.HideSelection = true;
+            lblCol.Focus();
+            // Se realiza el análisis lexico, coloreando los tokens y agregando los errores a la lista
             foreach (string[] item in automata.Analizar(txtCodigo.Text))
             {
-               int posicion = txtCodigo.SelectionStart;
                 txtCodigo.Select(Convert.ToInt32(item[5]), item[0].Length);
                 txtCodigo.SelectionColor = Color.FromName(item[4]);
-                txtCodigo.Select(posicion, 0);
 
                 if (item[1] == "Error")
                 {
@@ -53,6 +62,10 @@ namespace _201731241_EditorDeTexto
                 }
                 cambios = documentoAbierto;
             }
+            // Se devuelve el enfoque al cuadro y se coloca el cursor en la posición
+            txtCodigo.Focus();
+            txtCodigo.Select(posicion, 0);
+//            txtCodigo.ScrollToCaret();
 
         }
 
@@ -73,9 +86,13 @@ namespace _201731241_EditorDeTexto
 
         private void txtCodigo_SelectionChanged(object sender, EventArgs e)
         {
-            int[] posicion = GetCursorPosition(txtCodigo);
-            lblLinea.Text = posicion[0].ToString();
-            lblCol.Text = posicion[1].ToString();
+            // Si el cuadro de texto está enfocado se muestra la posición del cursor
+            if (txtCodigo.Focused)
+            {
+                int[] posicion = GetCursorPosition(txtCodigo);
+                lblLinea.Text = posicion[0].ToString();
+                lblCol.Text = posicion[1].ToString();
+            }
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)

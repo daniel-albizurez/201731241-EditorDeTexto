@@ -59,7 +59,7 @@
             this.editToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(780, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(790, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -77,28 +77,28 @@
             // nuevoArchivo
             // 
             this.nuevoArchivo.Name = "nuevoArchivo";
-            this.nuevoArchivo.Size = new System.Drawing.Size(180, 22);
+            this.nuevoArchivo.Size = new System.Drawing.Size(157, 22);
             this.nuevoArchivo.Text = "Nuevo";
             this.nuevoArchivo.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // abrirArchivo
             // 
             this.abrirArchivo.Name = "abrirArchivo";
-            this.abrirArchivo.Size = new System.Drawing.Size(180, 22);
+            this.abrirArchivo.Size = new System.Drawing.Size(157, 22);
             this.abrirArchivo.Text = "Abrir";
             this.abrirArchivo.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // guardarArchivo
             // 
             this.guardarArchivo.Name = "guardarArchivo";
-            this.guardarArchivo.Size = new System.Drawing.Size(180, 22);
+            this.guardarArchivo.Size = new System.Drawing.Size(157, 22);
             this.guardarArchivo.Text = "Guardar";
             this.guardarArchivo.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exportarErroresToolStripMenuItem
             // 
             this.exportarErroresToolStripMenuItem.Name = "exportarErroresToolStripMenuItem";
-            this.exportarErroresToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportarErroresToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.exportarErroresToolStripMenuItem.Text = "Exportar Errores";
             this.exportarErroresToolStripMenuItem.Click += new System.EventHandler(this.exportarErroresToolStripMenuItem_Click);
             // 
@@ -127,8 +127,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.lstErrores);
-            this.splitContainer1.Size = new System.Drawing.Size(780, 430);
-            this.splitContainer1.SplitterDistance = 253;
+            this.splitContainer1.Size = new System.Drawing.Size(790, 459);
+            this.splitContainer1.SplitterDistance = 254;
             this.splitContainer1.TabIndex = 1;
             // 
             // lblCol
@@ -206,7 +206,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(780, 454);
+            this.ClientSize = new System.Drawing.Size(790, 483);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;

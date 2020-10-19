@@ -135,6 +135,7 @@ public class AFD
 
         dError.Add('a', -1);
 
+        // Se agregan las transiciones al conjunto de transiciones
         delta.Add(0, d0);
         delta.Add(1, d1);
         delta.Add(2, d2);
@@ -169,15 +170,16 @@ public class AFD
         delta.Add(31, d31);
         delta.Add(-1, dError);
 
-        finales.Add(1, "Operador Aritmectico");
-        finales.Add(2, "Operador Aritmectico");
-        finales.Add(6, "Operador Aritmectico");
-        finales.Add(7, "Operador Aritmectico");
-        finales.Add(10, "Operador Aritmectico");
-        finales.Add(19, "Operador Aritmectico");
-        finales.Add(3, "Numero Entero");
-        finales.Add(5, "Numero Decimal");
-        finales.Add(8, "Char");
+        // Se agregan los estados finales y el tipo de token al que correspondern
+        finales.Add(1, "operador aritmectico");
+        finales.Add(2, "operador aritmectico");
+        finales.Add(6, "operador aritmectico");
+        finales.Add(7, "operador aritmectico");
+        finales.Add(10, "operador aritmectico");
+        finales.Add(19, "operador aritmectico");
+        finales.Add(3, "numero entero");
+        finales.Add(5, "numero decimal");
+        finales.Add(8, "char");
         finales.Add(9, "identificador");
         finales.Add(11, "comentario");
         finales.Add(15, "comentario mult");
@@ -193,6 +195,7 @@ public class AFD
         finales.Add(30, "agrupacion");
         finales.Add(31, "fin sentencia");
 
+        // Se le asigna un color a cada estado final
         colores.Add(1, "blue");
         colores.Add(2, "blue");
         colores.Add(6, "blue");
