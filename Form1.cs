@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,6 +15,7 @@ namespace _201731241_EditorDeTexto
     public partial class editor : Form
     {
         AFD automata = new AFD();
+        PDA sintactico = new PDA();
         bool documentoAbierto;
         string nombreDocumento;
         bool cambios;
@@ -39,6 +41,7 @@ namespace _201731241_EditorDeTexto
 
         private void txtCodigo_TextChanged(object sender, EventArgs e)
         {
+            ArrayList tokens = automata.Analizar(txtCodigo.Text);
             // Se vacía la lista de errores
             lstErrores.Items.Clear();
             // Se guarda la posición actual del cursor 
@@ -51,7 +54,7 @@ namespace _201731241_EditorDeTexto
             txtCodigo.HideSelection = true;
             lblCol.Focus();
             // Se realiza el análisis lexico, coloreando los tokens y agregando los errores a la lista
-            foreach (string[] item in automata.Analizar(txtCodigo.Text))
+            foreach (string[] item in tokens)
             {
                 txtCodigo.Select(Convert.ToInt32(item[5]), item[0].Length);
                 txtCodigo.SelectionColor = Color.FromName(item[4]);
@@ -62,10 +65,19 @@ namespace _201731241_EditorDeTexto
                 }
                 cambios = documentoAbierto;
             }
+            if (lstErrores.Items.Count == 0)
+            {
+                tokens.Add(new string[] { "$", "$", "-1"});
+                /*foreach (string[] item in tokens)
+                {
+                    sintactico.transition(item[0], item[1], item[2]);
+                }*/
+            }
+                sintactico.analize(tokens);
             // Se devuelve el enfoque al cuadro y se coloca el cursor en la posición
             txtCodigo.Focus();
             txtCodigo.Select(posicion, 0);
-//            txtCodigo.ScrollToCaret();
+            //            txtCodigo.ScrollToCaret();
 
         }
 
@@ -161,7 +173,7 @@ namespace _201731241_EditorDeTexto
         {
             if (cambios)
             {
-                DialogResult resultado =  MessageBox.Show("Desea guardar los cambios a " + nombreDocumento, "Guardar", MessageBoxButtons.YesNo);
+                DialogResult resultado = MessageBox.Show("Desea guardar los cambios a " + nombreDocumento, "Guardar", MessageBoxButtons.YesNo);
                 if (resultado == DialogResult.Yes)
                 {
                     Guardar(false);
@@ -176,7 +188,7 @@ namespace _201731241_EditorDeTexto
 
         private void Guardar(bool Error)
         {
-            SaveFileDialog dialog = (Error) ? dialogExportarErrores : dialogGuardarArchivo ;
+            SaveFileDialog dialog = (Error) ? dialogExportarErrores : dialogGuardarArchivo;
 
             string[] lines = (Error) ? lstErrores.Items.OfType<string>().ToArray() : txtCodigo.Lines;
 
@@ -198,7 +210,7 @@ namespace _201731241_EditorDeTexto
                     {
                         /*if (!String.IsNullOrEmpty(line))
                         {*/
-                            sw.WriteLine(line);
+                        sw.WriteLine(line);
                         /*}*/
                     }
                 }

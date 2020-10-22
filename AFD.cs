@@ -10,10 +10,11 @@ public class AFD
                               20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
                               30, 31
     };
-    private string[] reservadas = { 
-       "entero", "decimal", "cadena", "booleano", "caracter", "SI", "SINO", "SINO_SI", "MIENTRAS", "HACER", "DESDE", "HASTA", "INCREMENTO"
+    private string[] tipos = { "entero", "decimal", "cadena", "booleano", "caracter" };
+    private string[] reservadas = {
+        "SI", "SINO", "SINO_SI", "MIENTRAS", "HACER", "DESDE", "HASTA", "INCREMENTO"
     };
-    private string[] boolean = {"verdadero", "falso"};
+    private string[] boolean = { "verdadero", "falso" };
     private int inicial = 0;
 
     //Listas que contienen los estados finales y una descripcion de la cadena resultante
@@ -57,6 +58,7 @@ public class AFD
     private Dictionary<char, int> d29 = new Dictionary<char, int>();
     private Dictionary<char, int> d30 = new Dictionary<char, int>();
     private Dictionary<char, int> d31 = new Dictionary<char, int>();
+    private Dictionary<char, int> d32 = new Dictionary<char, int>();
     private Dictionary<char, int> dError = new Dictionary<char, int>();
 
     //Lista que almacena los tokens encontrados, el tipo, fila y columna del mismo
@@ -81,6 +83,7 @@ public class AFD
         d0.Add('(', 30);
         d0.Add(')', 30);
         d0.Add(';', 31);
+        d0.Add(',', 32);
 
         d1.Add('+', 2);
 
@@ -116,11 +119,11 @@ public class AFD
         d14.Add('/', 15);
 
         d16.Add('=', 17);
-        
+
         d18.Add('=', 17);
 
         d20.Add('=', 21);
-        
+
         d22.Add('=', 21);
 
         d23.Add('a', 24);
@@ -168,6 +171,7 @@ public class AFD
         delta.Add(29, d29);
         delta.Add(30, d30);
         delta.Add(31, d31);
+        delta.Add(32, d32);
         delta.Add(-1, dError);
 
         // Se agregan los estados finales y el tipo de token al que correspondern
@@ -194,6 +198,7 @@ public class AFD
         finales.Add(25, "cadena");
         finales.Add(30, "agrupacion");
         finales.Add(31, "fin sentencia");
+        finales.Add(32, "coma");
 
         // Se le asigna un color a cada estado final
         colores.Add(1, "blue");
@@ -224,6 +229,7 @@ public class AFD
         colores.Add(25, "gray");
         colores.Add(30, "blue");
         colores.Add(31, "magenta");
+        colores.Add(32, "black");
     }
 
     //Metodo que realiza el analisis de un texto, caracter por caracter
@@ -282,7 +288,7 @@ public class AFD
             if (caracter == ' ' || caracter == '\n')
             {
                 //Si el estado fuera de comentario se ignora
-                if (estadoActual != 11 && estadoActual !=24 && estadoActual != 13)
+                if (estadoActual != 11 && estadoActual != 24 && estadoActual != 13)
                 {
                     if (!string.IsNullOrEmpty(token))
                     {
@@ -352,13 +358,20 @@ public class AFD
         string color =
         colores.TryGetValue(estadoFinal, out color) ? color : "black";
         string tipo = Encontrado(estadoFinal);
-        if (estadoFinal == 9 )
+        if (estadoFinal == 9)
         {
-            if (reservadas.Contains(token))
+            if (reservadas.Contains(token) || tipos.Contains(token))
             {
                 color = "green";
-                tipo = "palabra reservada";
-            } 
+                if (tipos.Contains(token))
+                {
+                    tipo = "tipo";
+                }
+                else
+                {
+                    tipo = "palabra reservada";
+                }
+            }
             else if (boolean.Contains(token))
             {
                 color = "orange";
@@ -366,7 +379,7 @@ public class AFD
             }
 
 
-        } 
+        }
         resultados.Add(new string[] { token, tipo, fila.ToString(), columna.ToString(), color, (posicion - token.Length).ToString() });
     }
 
@@ -394,7 +407,7 @@ public class AFD
         }
         else if (estado == 14)
         {
-            caracter = (caracter == '/') ? caracter : 'a' ;
+            caracter = (caracter == '/') ? caracter : 'a';
         }
         else if (estado == 23 || estado == 24)
         {
