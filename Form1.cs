@@ -42,6 +42,7 @@ namespace _201731241_EditorDeTexto
         private void txtCodigo_TextChanged(object sender, EventArgs e)
         {
             ArrayList tokens = automata.Analizar(txtCodigo.Text);
+            ArrayList errores = new ArrayList();
             // Se vacía la lista de errores
             lstErrores.Items.Clear();
             // Se guarda la posición actual del cursor 
@@ -61,19 +62,24 @@ namespace _201731241_EditorDeTexto
 
                 if (item[1] == "Error")
                 {
-                    lstErrores.Items.Add(item[0] + ' ' + item[1] + " Linea: " + item[2] + " Columna: " + item[3]);
+                    errores.Add(item[0] + ' ' + item[1] + " Linea: " + item[2] + " Columna: " + item[3]);
+                    //lstErrores.Items.Add(item[0] + ' ' + item[1] + " Linea: " + item[2] + " Columna: " + item[3]);
                 }
                 cambios = documentoAbierto;
             }
-            if (lstErrores.Items.Count == 0)
+            if (errores.Count == 0)
             {
                 tokens.Add(new string[] { "$", "$", "-1"});
                 /*foreach (string[] item in tokens)
                 {
                     sintactico.transition(item[0], item[1], item[2]);
                 }*/
+                errores = sintactico.analize(tokens);
             }
-                sintactico.analize(tokens);
+            foreach (string error in errores)
+            {
+                lstErrores.Items.Add(error);
+            }
             // Se devuelve el enfoque al cuadro y se coloca el cursor en la posición
             txtCodigo.Focus();
             txtCodigo.Select(posicion, 0);
