@@ -13,6 +13,7 @@ public class AFD
     private string[] tipos = { "entero", "decimal", "cadena", "booleano", "caracter" };
     private string[] reservadas = {
         "SI", "SINO", "SINO_SI", "MIENTRAS", "HACER", "DESDE", "HASTA", "INCREMENTO", "principal"
+            , "leer", "imprimir"
     };
     private string[] boolean = { "verdadero", "falso" };
     private int inicial = 0;
@@ -191,8 +192,8 @@ public class AFD
         finales.Add(7, "operador aritmectico");
         finales.Add(10, "operador aritmectico");
         finales.Add(19, "operador aritmectico");
-        finales.Add(3, "numero entero");
-        finales.Add(5, "numero decimal");
+        finales.Add(3, "int");
+        finales.Add(5, "double");
         finales.Add(8, "char");
         finales.Add(9, "id");
         finales.Add(11, "comentario");
@@ -205,7 +206,7 @@ public class AFD
         finales.Add(18, "operador logico");
         finales.Add(27, "operador logico");
         finales.Add(29, "operador logico");
-        finales.Add(25, "cadena");
+        finales.Add(25, "str");
         finales.Add(30, "agrupacion");
         finales.Add(31, "fin sentencia");
         finales.Add(32, "coma");

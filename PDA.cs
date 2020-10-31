@@ -72,7 +72,62 @@ public class PDA
         tabla.Add(( "T"     ,   "caracter"     ), new string[] { "", "caracter" });
 
         tabla.Add(( "D'"    ,   ";"         ), new string[] { "" });
+        tabla.Add(( "D'"    ,   "="         ), new string[] { "", "Ig" });
+        tabla.Add(( "D'"    ,   ","         ), new string[] { "", "D'", "id", "," });
+
+        tabla.Add(("Ig", "="), new string[] { "", "op", "V", "=" });
+
+        tabla.Add(( "Pr"    ,    "imprimir"         ), new string[] { "", ")", "op", "V", "(", "imprimir" });
         
+        tabla.Add(( "R"    ,    "leer"         ), new string[] { "", ")", "id", "(", "leer" });
+        
+        tabla.Add(( "bool"    ,   "id"         ), new string[] { "", "bool'", "V", "C", "V" });
+        tabla.Add(( "bool'"    ,   "!"         ), new string[] { "", "bool'", "bool", "!" });
+        tabla.Add(( "bool"    ,   "falso"         ), new string[] { "", "bool'", "falso" });
+        tabla.Add(( "bool"    ,   "verdadero"         ), new string[] { "", "bool'", "verdadero" });
+        tabla.Add(( "bool"    ,   "int"         ), new string[] { "", "bool'", "V", "C", "V" });
+        tabla.Add(( "bool"    ,   "double"         ), new string[] { "", "bool'", "V", "C", "V" });
+        tabla.Add(( "bool"    ,   "char"         ), new string[] { "", "bool'", "V", "C", "V" });
+        tabla.Add(( "bool"    ,   "str"         ), new string[] { "", "bool'", "V", "C", "V" });
+        
+        tabla.Add(( "bool'"    ,   "||"         ), new string[] { "", "bool", "opl" });
+        tabla.Add(( "bool'"    ,   "&&"         ), new string[] { "", "bool", "opl" });
+        tabla.Add(( "bool'"    ,   ")"         ), new string[] { "" });
+        
+        tabla.Add(( "opl"    ,    "||"         ), new string[] { "", "||" });
+        tabla.Add(( "opl"    ,    "&&"         ), new string[] { "", "&&" });
+
+        tabla.Add(( "C"    ,    ">"         ), new string[] { "", ">" });
+        tabla.Add(( "C"    ,    "<"         ), new string[] { "", "<" });
+        tabla.Add(( "C"    ,    ">="         ), new string[] { "", ">=" });
+        tabla.Add(( "C"    ,    "<="         ), new string[] { "", "<=" });
+        tabla.Add(( "C"    ,    "!="         ), new string[] { "", "!=" });
+        tabla.Add(( "C"    ,    "=="         ), new string[] { "", "==" });
+
+        tabla.Add(( "op"    ,    ";"         ), new string[] { "" });
+        tabla.Add(( "op"    ,    "+"         ), new string[] { "", "V", "+" });
+        tabla.Add(( "op"    ,    "-"         ), new string[] { "", "V", "-" });
+        tabla.Add(( "op"    ,    "*"         ), new string[] { "", "V", "*" });
+        tabla.Add(( "op"    ,    "/"         ), new string[] { "", "V", "/" });
+
+        tabla.Add(( "V"    ,    "id"         ), new string[] { "", "id" });
+        tabla.Add(( "V"    ,    "int"         ), new string[] { "", "int" });
+        tabla.Add(( "V"    ,    "double"         ), new string[] { "", "double" });
+        tabla.Add(( "V"    ,    "boolean"         ), new string[] { "", "boolean" });
+        tabla.Add(( "V"    ,    "char"         ), new string[] { "", "char" });
+        tabla.Add(( "V"    ,    "str"         ), new string[] { "", "str" });
+
+        tabla.Add(( "If"     ,   "SI"  ), new string[] { "", "If'","B", ")", "bool", "(", "SI" });
+        tabla.Add(( "If'"     ,   "SINO"  ), new string[] { "", "B", "SINO" });
+        tabla.Add(( "If'"     ,   "SINO_SI"  ), new string[] { "", "If'","B", ")", "bool", "(", "SINO_SI" });
+        tabla.Add(( "If'"     ,   "}"  ), new string[] { "", });
+
+        tabla.Add(( "Do"     ,   "HACER"  ), new string[] { "", ")","bool", "(", "MIENTRAS", "B", "HACER" });
+
+        tabla.Add(( "W"     ,   "MIENTRAS"  ), new string[] { "", "B", ")", "bool", "(", "MIENTRAS" });
+
+        tabla.Add(( "For"     ,   "DESDE"  ), new string[] { "", "B", "int", "INCREMENTO", "V", "C", "V", "HASTA", "Ig", "id", "DESDE" });
+
         tabla.Add(( "F"    ,    ";"         ), new string[] { "", "I", ";" });
 
 
@@ -133,6 +188,13 @@ public class PDA
             case "id":
                 lexema = "id";
                 break;
+            case "int":
+            case "double":
+            case "str":
+            case "char":
+            case "bool":
+                lexema = token;
+                break;
             /*case "numero entero":
             case "numero decimal":
                 lexema = "num";
@@ -143,7 +205,7 @@ public class PDA
             default:
                 break;
         }
-        Console.WriteLine(lexema);
+        //Console.WriteLine(lexema);
         bool repeat = true;
             string esp;
             if (esperados.TryGetValue(posicion, out esp) && lexema != "$")
@@ -161,6 +223,7 @@ public class PDA
                 }
             }
                     stackVal = stack.Peek();
+            int contador = 0;
         while (repeat)
         {
             if (repeat = tabla.TryGetValue((stackVal, lexema), out pushVal))
@@ -176,9 +239,10 @@ public class PDA
                     esperados.Add(posicion + 1, es);
                 }
             }
-                if (stack.Count != 0 && (stackVal = stack.Peek()) == lexema)
+                if (stack.Count != 0 && (stackVal = stack.Peek()) == lexema && contador<1)
                 {
                     stack.Pop();
+                contador = 1;
                 }
         }
     }
