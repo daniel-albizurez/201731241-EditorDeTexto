@@ -59,6 +59,8 @@ public class AFD
     private Dictionary<char, int> d30 = new Dictionary<char, int>();
     private Dictionary<char, int> d31 = new Dictionary<char, int>();
     private Dictionary<char, int> d32 = new Dictionary<char, int>();
+    private Dictionary<char, int> d33 = new Dictionary<char, int>();
+    private Dictionary<char, int> d34 = new Dictionary<char, int>();
     private Dictionary<char, int> dError = new Dictionary<char, int>();
 
     //Lista que almacena los tokens encontrados, el tipo, fila y columna del mismo
@@ -84,6 +86,7 @@ public class AFD
         d0.Add(')', 30);
         d0.Add(';', 31);
         d0.Add(',', 32);
+        d0.Add('_', 33);
 
         d1.Add('+', 2);
 
@@ -96,9 +99,7 @@ public class AFD
 
         d6.Add('-', 7);
 
-        d8.Add('l', 9);
-        d8.Add('d', 9);
-        d8.Add('_', 9);
+        d8.Add('l', 34);
 
         d9.Add('l', 9);
         d9.Add('d', 9);
@@ -136,6 +137,11 @@ public class AFD
 
         d28.Add('&', 29);
 
+        d33.Add('d', 9);
+        d33.Add('l', 9);
+
+        d34.Add('l', 34);
+
         dError.Add('a', -1);
 
         // Se agregan las transiciones al conjunto de transiciones
@@ -172,6 +178,8 @@ public class AFD
         delta.Add(30, d30);
         delta.Add(31, d31);
         delta.Add(32, d32);
+        delta.Add(33, d33);
+        delta.Add(34, d34);
         delta.Add(-1, dError);
 
         // Se agregan los estados finales y el tipo de token al que correspondern
@@ -184,7 +192,7 @@ public class AFD
         finales.Add(3, "numero entero");
         finales.Add(5, "numero decimal");
         finales.Add(8, "char");
-        finales.Add(9, "identificador");
+        finales.Add(9, "id");
         finales.Add(11, "comentario");
         finales.Add(15, "comentario mult");
         finales.Add(16, "asignacion");
@@ -358,7 +366,7 @@ public class AFD
         string color =
         colores.TryGetValue(estadoFinal, out color) ? color : "black";
         string tipo = Encontrado(estadoFinal);
-        if (estadoFinal == 9)
+        if (estadoFinal == 34)
         {
             if (reservadas.Contains(token) || tipos.Contains(token))
             {
@@ -376,6 +384,10 @@ public class AFD
             {
                 color = "orange";
                 tipo = "boolean";
+            } else
+            {
+                tipo = "error";
+                color = " black";
             }
 
 
@@ -389,7 +401,7 @@ public class AFD
         string tipo;
         if (!finales.TryGetValue(estadoFinal, out tipo))
         {
-            tipo = "Error";
+            tipo = "error";
         }
         return tipo;
     }

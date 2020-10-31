@@ -12,11 +12,26 @@ public class PDA
 	 * Mis trancisiones son del tipo (caracter, pila) -> push o pop
 	 **/
     static Stack<string> stack = new Stack<string>();
+//    Stack<(int,string)> esperado = new Stack<(int,string)>();
+
     Dictionary<(string, string), string[]> tabla = new Dictionary<(string, string), string[]>();
-    //Dictionary<string, string> errores = new Dictionary<string, string>();
+    Dictionary<int, string> esperados = new Dictionary<int, string>();
     ArrayList errores = new ArrayList();
 
+    /**
+     * Errores
+     * Apilo un simbolo
+     * Espero un token
+     * No viene ese token
+     * Guardo el error
+     * Reinicio la pila
+     * Repito
+     * */
+
     string produccionInicial = "I";
+
+    int posicion = 0;
+
 
     public PDA()
     {
@@ -24,21 +39,19 @@ public class PDA
         tabla.Add(( "I"     ,   "$"     ), new string[] { "" });
         tabla.Add(( "S"     ,   "tipo"  ), new string[] { "", "S\'", "D" });
         tabla.Add(( "S\'"   ,   ";"     ), new string[] { "", "F" });
-        tabla.Add(( "D"     ,   "tipo"  ), new string[] { " identificador", "N", "tipo" });
-        tabla.Add(( "N"     ,   "id"    ), new string[] { " ;", "N\'", "id" });
+        tabla.Add(( "D"     ,   "tipo"  ), new string[] { "id", "N", "tipo" });
+        tabla.Add(( "N"     ,   "id"    ), new string[] { ";", "N\'", "id" });
         tabla.Add(( "N\'"   ,   ";"     ), new string[] { "" });
-        tabla.Add(( "N\'"   ,   ","     ), new string[] { "", "N", "," });
+        tabla.Add(( "N\'"   ,   ","     ), new string[] { "id", "N", "," });
         tabla.Add(( "F"     ,   ";"     ), new string[] { "", "I", ";" });
-
-        /*errores.Add("F", ";");
-        errores.Add("N", "identificador");
-        errores.Add("N\'", ";");*/
     }
 
     public ArrayList analize(ArrayList tokens)
     {
         stack.Clear();
+        esperados.Clear();
         errores.Clear();
+        posicion = 0;
         if (stack.Count == 0)
         {
             stack.Push("$");
@@ -46,65 +59,77 @@ public class PDA
         }
         foreach (string[] token in tokens)
         {
-            string esperado;
-            transition(token[0], token[1], token[2], out esperado);
-            //Console.WriteLine(token[0]);
-            if (!String.IsNullOrEmpty(esperado) && tokens.LastIndexOf(token) == tokens.Count-2)
-            {
-                string error = "Se espera" + esperado + " en linea " + token[2] + " en columna " + (Int16.Parse(token[3]) + 1) ;
-                Console.WriteLine(error);
-                errores.Add(error);
-            }
+            transition(token);
         }
-/*        if (stack.Count == 0)
+        foreach (int item in esperados.Keys)
         {
-            Console.WriteLine("Analisis Completo");
-        } /*else
-        {
-            string esperado;
-            errores.TryGetValue(stack.Peek(), out esperado);
-            Console.WriteLine(esperado + " esperado");
-        }*/
+            string error;
+            esperados.TryGetValue(item, out error);
+            Console.WriteLine(error + item);
+        }
         return errores;
     }
-
-    public void transition(string lexema, string token, string linea, out string esperado)
+    public void transition(string[] info)
     {
-        //Console.WriteLine(lexema + " " + token + " " + linea);
-        string stackVal = stack.Peek();
+        string stackVal;
         string[] pushVal;
+        string token = info[1];
+        string lexema = info[0];
+        posicion++;
         switch (token)
         {
             case "tipo":
                 lexema = token;
                 break;
-            case "identificador":
+            case "id":
                 lexema = "id";
                 break;
             case "numero entero":
             case "numero decimal":
                 lexema = "num";
                 break;
+            case "error":
+                lexema = "error";
+                break;
             default:
                 break;
         }
-        esperado = "";
-        while (tabla.TryGetValue((stackVal, lexema), out pushVal))
-        {
-            stack.Pop();
-            esperado = pushVal[0];
-            foreach (string val in pushVal.Skip(1))
+        bool repeat = true;
+            string esp;
+            if (esperados.TryGetValue(posicion, out esp) && lexema != "$")
             {
-                stack.Push(val);
+                if (esp == lexema)
+                {
+                    esperados.Remove(posicion);
+                }
+                else
+                {
+                errores.Add("Se esperaba " + esp + " en línea " + info[2] + " columna " + info[3]);
+                    stack.Clear();
+                    stack.Push("$");
+                    stack.Push(produccionInicial);
+                }
             }
-            if (stack.Count != 0 && (stackVal = stack.Peek()) == lexema)
+                    stackVal = stack.Peek();
+        while (repeat)
+        {
+            if (repeat = tabla.TryGetValue((stackVal, lexema), out pushVal))
             {
                 stack.Pop();
+                string es = pushVal[0];
+                foreach (string val in pushVal.Skip(1))
+                {
+                    stack.Push(val);
+                }
+                if (!String.IsNullOrEmpty(es))
+                {
+                    esperados.Add(posicion + 1, es);
+                }
+                if (stack.Count != 0 && (stackVal = stack.Peek()) == lexema)
+                {
+                    stack.Pop();
+                }
             }
         }
-/*        if (stack.Count != 0 && (stackVal = stack.Peek()) == lexema)
-        {
-            stack.Pop();
-        }*/
     }
 }

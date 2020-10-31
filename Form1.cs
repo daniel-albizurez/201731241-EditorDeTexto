@@ -42,7 +42,8 @@ namespace _201731241_EditorDeTexto
         private void txtCodigo_TextChanged(object sender, EventArgs e)
         {
             ArrayList tokens = automata.Analizar(txtCodigo.Text);
-            ArrayList errores = new ArrayList();
+            ArrayList erroresLex = new ArrayList();
+            ArrayList erroresSint = new ArrayList();
             // Se vacía la lista de errores
             lstErrores.Items.Clear();
             // Se guarda la posición actual del cursor 
@@ -60,26 +61,31 @@ namespace _201731241_EditorDeTexto
                 txtCodigo.Select(Convert.ToInt32(item[5]), item[0].Length);
                 txtCodigo.SelectionColor = Color.FromName(item[4]);
 
-                if (item[1] == "Error")
+                if (item[1] == "error")
                 {
-                    errores.Add(item[0] + ' ' + item[1] + " Linea: " + item[2] + " Columna: " + item[3]);
+                    erroresLex.Add(item[0] + ' ' + item[1] + " Linea: " + item[2] + " Columna: " + item[3]);
                     //lstErrores.Items.Add(item[0] + ' ' + item[1] + " Linea: " + item[2] + " Columna: " + item[3]);
                 }
                 cambios = documentoAbierto;
             }
-            if (errores.Count == 0)
+                tokens.Add(new string[] { "$", "$", "-1", "-1", "-1", ""});
+                erroresSint = sintactico.analize(tokens);
+            if (erroresLex.Count == 0)
             {
-                tokens.Add(new string[] { "$", "$", "-1"});
                 /*foreach (string[] item in tokens)
                 {
                     sintactico.transition(item[0], item[1], item[2]);
                 }*/
-                errores = sintactico.analize(tokens);
             }
-            foreach (string error in errores)
+            foreach (string error in erroresLex)
             {
                 lstErrores.Items.Add(error);
             }
+            foreach (string error in erroresSint)
+            {
+                lstErrores.Items.Add(error);
+            }
+
             // Se devuelve el enfoque al cuadro y se coloca el cursor en la posición
             txtCodigo.Focus();
             txtCodigo.Select(posicion, 0);
