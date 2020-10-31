@@ -5,14 +5,14 @@ using System.Collections.Generic;
 
 public class AFD
 {
-    private int[] estados = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+/*    private int[] estados = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
                               10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
                               20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
                               30, 31
-    };
+    };*/
     private string[] tipos = { "entero", "decimal", "cadena", "booleano", "caracter" };
     private string[] reservadas = {
-        "SI", "SINO", "SINO_SI", "MIENTRAS", "HACER", "DESDE", "HASTA", "INCREMENTO"
+        "SI", "SINO", "SINO_SI", "MIENTRAS", "HACER", "DESDE", "HASTA", "INCREMENTO", "principal"
     };
     private string[] boolean = { "verdadero", "falso" };
     private int inicial = 0;
@@ -84,6 +84,8 @@ public class AFD
         d0.Add('&', 28);
         d0.Add('(', 30);
         d0.Add(')', 30);
+        d0.Add('{', 30);
+        d0.Add('}', 30);
         d0.Add(';', 31);
         d0.Add(',', 32);
         d0.Add('_', 33);
@@ -207,6 +209,7 @@ public class AFD
         finales.Add(30, "agrupacion");
         finales.Add(31, "fin sentencia");
         finales.Add(32, "coma");
+        finales.Add(34, "reservada");
 
         // Se le asigna un color a cada estado final
         colores.Add(1, "blue");
@@ -389,8 +392,6 @@ public class AFD
                 tipo = "error";
                 color = " black";
             }
-
-
         }
         resultados.Add(new string[] { token, tipo, fila.ToString(), columna.ToString(), color, (posicion - token.Length).ToString() });
     }

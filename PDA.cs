@@ -28,14 +28,55 @@ public class PDA
      * Repito
      * */
 
-    string produccionInicial = "I";
+    string produccionInicial = "P";
 
     int posicion = 0;
 
 
     public PDA()
     {
-        tabla.Add(( "I"     ,   "tipo"  ), new string[] { "", "S" });
+        tabla.Add(( "P"     ,   "principal"  ), new string[] { "", "B", ")", "(", "principal" });
+        tabla.Add(( "B"     ,   "{"  ), new string[] { "", "}", "I", "{"});
+
+        tabla.Add(( "I"     ,   "imprimir"     ), new string[] { "", "F", "S" });
+        tabla.Add(( "I"     ,   "leer"     ), new string[] { "", "F", "S" });
+        tabla.Add(( "I"     ,   "entero"     ), new string[] { "", "F", "S" });
+        tabla.Add(( "I"     ,   "decimal"     ), new string[] { "", "F", "S" });
+        tabla.Add(( "I"     ,   "booleano"     ), new string[] { "", "F", "S" });
+        tabla.Add(( "I"     ,   "cadena"     ), new string[] { "", "F", "S" });
+        tabla.Add(( "I"     ,   "caracter"     ), new string[] { "", "F", "S" });
+        tabla.Add(( "I"     ,   "SI"     ), new string[] { "(", "If"});
+        tabla.Add(( "I"     ,   "MIENTRAS"     ), new string[] { "(", "W"});
+        tabla.Add(( "I"     ,   "HACER"     ), new string[] { "(", "Do"});
+        tabla.Add(( "I"     ,   "DESDE"     ), new string[] { "(", "For" });
+        tabla.Add(( "I"     ,   "}"     ), new string[] { ""});
+
+        tabla.Add(( "S"     ,   "imprimir"     ), new string[] { "", "Pr"});
+        tabla.Add(( "S"     ,   "leer"     ), new string[] { "", "R"});
+        tabla.Add(( "S"     ,   "entero"     ), new string[] { "", "D" });
+        tabla.Add(( "S"     ,   "decimal"     ), new string[] { "", "D" });
+        tabla.Add(( "S"     ,   "booleano"     ), new string[] { "", "D" });
+        tabla.Add(( "S"     ,   "cadena"     ), new string[] { "", "D" });
+        tabla.Add(( "S"     ,   "caracter"     ), new string[] { "", "D" });
+
+        tabla.Add(( "D"     ,   "entero"     ), new string[] { "", "D'", "id", "T" });
+        tabla.Add(( "D"     ,   "decimal"     ), new string[] { "", "D'", "id", "T" });
+        tabla.Add(( "D"     ,   "booleano"     ), new string[] { "", "D'", "id", "T" });
+        tabla.Add(( "D"     ,   "cadena"     ), new string[] { "", "D'", "id", "T" });
+        tabla.Add(( "D"     ,   "caracter"     ), new string[] { "", "D'", "id", "T" });
+
+        tabla.Add(( "T"     ,   "entero"     ), new string[] { "", "entero" });
+        tabla.Add(( "T"     ,   "decimal"     ), new string[] { "", "decimal" });
+        tabla.Add(( "T"     ,   "booleano"     ), new string[] { "", "booleano" });
+        tabla.Add(( "T"     ,   "cadena"     ), new string[] { "", "cadena" });
+        tabla.Add(( "T"     ,   "caracter"     ), new string[] { "", "caracter" });
+
+        tabla.Add(( "D'"    ,   ";"         ), new string[] { "" });
+        
+        tabla.Add(( "F"    ,    ";"         ), new string[] { "", "I", ";" });
+
+
+        /*tabla.Add(( "I"     ,   "tipo"  ), new string[] { "", "S" });
         tabla.Add(( "I"     ,   "$"     ), new string[] { "" });
         tabla.Add(( "S"     ,   "tipo"  ), new string[] { "", "S\'", "D" });
         tabla.Add(( "S\'"   ,   ";"     ), new string[] { "", "F" });
@@ -43,7 +84,7 @@ public class PDA
         tabla.Add(( "N"     ,   "id"    ), new string[] { ";", "N\'", "id" });
         tabla.Add(( "N\'"   ,   ";"     ), new string[] { "" });
         tabla.Add(( "N\'"   ,   ","     ), new string[] { "id", "N", "," });
-        tabla.Add(( "F"     ,   ";"     ), new string[] { "", "I", ";" });
+        tabla.Add(( "F"     ,   ";"     ), new string[] { "", "I", ";" });*/
     }
 
     public ArrayList analize(ArrayList tokens)
@@ -67,6 +108,14 @@ public class PDA
             esperados.TryGetValue(item, out error);
             Console.WriteLine(error + item);
         }
+        if (stack.Count == 0)
+        {
+            Console.WriteLine("Analisis completado");
+        }
+        foreach (string item in stack)
+        {
+            Console.WriteLine(item);
+        }
         return errores;
     }
     public void transition(string[] info)
@@ -78,22 +127,23 @@ public class PDA
         posicion++;
         switch (token)
         {
-            case "tipo":
+            /*case "tipo":
                 lexema = token;
-                break;
+                break;*/
             case "id":
                 lexema = "id";
                 break;
-            case "numero entero":
+            /*case "numero entero":
             case "numero decimal":
                 lexema = "num";
-                break;
+                break;*/
             case "error":
                 lexema = "error";
                 break;
             default:
                 break;
         }
+        Console.WriteLine(lexema);
         bool repeat = true;
             string esp;
             if (esperados.TryGetValue(posicion, out esp) && lexema != "$")
@@ -107,7 +157,7 @@ public class PDA
                 errores.Add("Se esperaba " + esp + " en línea " + info[2] + " columna " + info[3]);
                     stack.Clear();
                     stack.Push("$");
-                    stack.Push(produccionInicial);
+                    stack.Push("I");
                 }
             }
                     stackVal = stack.Peek();
@@ -125,11 +175,11 @@ public class PDA
                 {
                     esperados.Add(posicion + 1, es);
                 }
+            }
                 if (stack.Count != 0 && (stackVal = stack.Peek()) == lexema)
                 {
                     stack.Pop();
                 }
-            }
         }
     }
 }
