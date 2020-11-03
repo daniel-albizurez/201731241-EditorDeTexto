@@ -11,7 +11,7 @@ public class AFD
                               30, 31
     };*/
     private string[] tipos = { "entero", "decimal", "cadena", "booleano", "caracter" };
-    private string[] reservadas = {
+    public string[] reservadas = {
         "SI", "SINO", "SINO_SI", "MIENTRAS", "HACER", "DESDE", "HASTA", "INCREMENTO", "principal"
             , "leer", "imprimir"
     };

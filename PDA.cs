@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _201731241_EditorDeTexto;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,12 @@ using System.Runtime.InteropServices;
 
 public class PDA
 {
+    private string[] terminales = new string[] {"int", "double", "str", "char", "boolean", 
+    "(", ")", "imprimir", "leer", "entero", "cadena", "caracter", "decimal", "booleano", 
+        "verdadero", "falso", "id", ";", "{", "}", "+", "-", "/", "*"
+
+    };
+
     /** 
 	 * Tengo una pila
 	 * Una tabla de sustituciones (Que basicamente es una tabla de transiciones)
@@ -15,8 +22,10 @@ public class PDA
 //    Stack<(int,string)> esperado = new Stack<(int,string)>();
 
     Dictionary<(string, string), string[]> tabla = new Dictionary<(string, string), string[]>();
+    Dictionary<string, string> esperadosStack = new Dictionary<string, string>();
     Dictionary<int, string> esperados = new Dictionary<int, string>();
     ArrayList errores = new ArrayList();
+    Arbol arbol;
 
     /**
      * Errores
@@ -36,6 +45,7 @@ public class PDA
     public PDA()
     {
         tabla.Add(( "P"     ,   "principal"  ), new string[] { "", "B", ")", "(", "principal" });
+
         tabla.Add(( "B"     ,   "{"  ), new string[] { "", "}", "I", "{"});
 
         tabla.Add(( "I"     ,   "imprimir"     ), new string[] { "", "F", "S" });
@@ -45,10 +55,10 @@ public class PDA
         tabla.Add(( "I"     ,   "booleano"     ), new string[] { "", "F", "S" });
         tabla.Add(( "I"     ,   "cadena"     ), new string[] { "", "F", "S" });
         tabla.Add(( "I"     ,   "caracter"     ), new string[] { "", "F", "S" });
-        tabla.Add(( "I"     ,   "SI"     ), new string[] { "(", "If"});
-        tabla.Add(( "I"     ,   "MIENTRAS"     ), new string[] { "(", "W"});
-        tabla.Add(( "I"     ,   "HACER"     ), new string[] { "(", "Do"});
-        tabla.Add(( "I"     ,   "DESDE"     ), new string[] { "(", "For" });
+        tabla.Add(( "I"     ,   "SI"     ), new string[] { "", "If"});
+        tabla.Add(( "I"     ,   "MIENTRAS"     ), new string[] { "", "W"});
+        tabla.Add(( "I"     ,   "HACER"     ), new string[] { "", "Do"});
+        tabla.Add(( "I"     ,   "DESDE"     ), new string[] { "", "For" });
         tabla.Add(( "I"     ,   "}"     ), new string[] { ""});
 
         tabla.Add(( "S"     ,   "imprimir"     ), new string[] { "", "Pr"});
@@ -75,7 +85,7 @@ public class PDA
         tabla.Add(( "D'"    ,   "="         ), new string[] { "", "Ig" });
         tabla.Add(( "D'"    ,   ","         ), new string[] { "", "D'", "id", "," });
 
-        tabla.Add(("Ig", "="), new string[] { "", "op", "V", "=" });
+        tabla.Add(( "Ig"    ,   "="         ), new string[] { "", "op", "V", "=" });
 
         tabla.Add(( "Pr"    ,    "imprimir"         ), new string[] { "", ")", "op", "V", "(", "imprimir" });
         
@@ -152,25 +162,58 @@ public class PDA
         {
             stack.Push("$");
             stack.Push(produccionInicial);
+            arbol = new Arbol(produccionInicial);
         }
         foreach (string[] token in tokens)
         {
             transition(token);
         }
-        foreach (int item in esperados.Keys)
+ /*       foreach (int item in esperados.Keys)
         {
             string error;
             esperados.TryGetValue(item, out error);
             Console.WriteLine(error + item);
-        }
+        }*/
         if (stack.Count == 0)
         {
             Console.WriteLine("Analisis completado");
+        } else
+        {
+            string valorFinal = stack.Peek();
+            string esperado = "";
+            if (terminales.Contains(valorFinal))
+            {
+                esperado = valorFinal;
+            } else
+            {
+                switch (valorFinal)
+                {
+                    case "I":
+                    case "If'":
+                        esperado = "}";
+                        break;
+                    case "S": 
+                    case "F":
+                    case "D'":
+                        esperado = ";";
+                        break;
+                    case "B":
+                        esperado = "{";
+                            break;
+
+                }
+            }
+            if (!String.IsNullOrEmpty(esperado))
+            {
+                string[] ultimoToken = (string[]) tokens[tokens.Count-2];
+                errores.Add("Se esperaba " + esperado + " en línea " + ultimoToken[2] + " columna " + ultimoToken[3]);
+            }
         }
         foreach (string item in stack)
         {
             Console.WriteLine(item);
         }
+//        arbol.imprimir();
         return errores;
     }
     public void transition(string[] info)
@@ -216,22 +259,24 @@ public class PDA
                 }
                 else
                 {
-                errores.Add("Se esperaba " + esp + " en línea " + info[2] + " columna " + info[3]);
-                    stack.Clear();
+                    errores.Add("Se esperaba " + esp + " en línea " + info[2] + " columna " + info[3]);
+                    /*stack.Clear();
                     stack.Push("$");
-                    stack.Push("I");
+                    stack.Push("{");
+                    stack.Push("I");*/
                 }
             }
-                    stackVal = stack.Peek();
-            int contador = 0;
+            stackVal = stack.Peek();
         while (repeat)
         {
             if (repeat = tabla.TryGetValue((stackVal, lexema), out pushVal))
             {
                 stack.Pop();
+                arbol.cambiar(stackVal);
                 string es = pushVal[0];
                 foreach (string val in pushVal.Skip(1))
                 {
+                    arbol.agregarHijo(val);
                     stack.Push(val);
                 }
                 if (!String.IsNullOrEmpty(es))
@@ -239,11 +284,11 @@ public class PDA
                     esperados.Add(posicion + 1, es);
                 }
             }
-                if (stack.Count != 0 && (stackVal = stack.Peek()) == lexema && contador<1)
-                {
-                    stack.Pop();
-                contador = 1;
-                }
+            if (stack.Count != 0 && (stackVal = stack.Peek()) == lexema)
+            {
+                stack.Pop();
+                lexema = "";
+            }
         }
     }
 }

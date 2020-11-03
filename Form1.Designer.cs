@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(editor));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nuevoArchivo = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,6 +46,7 @@
             this.dialogAbrirArchivo = new System.Windows.Forms.OpenFileDialog();
             this.dialogGuardarArchivo = new System.Windows.Forms.SaveFileDialog();
             this.dialogExportarErrores = new System.Windows.Forms.SaveFileDialog();
+            this.autocompleteMenu1 = new AutocompleteMenuNS.AutocompleteMenu();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -171,6 +173,7 @@
             // 
             // txtCodigo
             // 
+            this.autocompleteMenu1.SetAutocompleteMenu(this.txtCodigo, this.autocompleteMenu1);
             this.txtCodigo.Location = new System.Drawing.Point(12, 3);
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.Size = new System.Drawing.Size(756, 229);
@@ -201,6 +204,32 @@
             // 
             this.dialogExportarErrores.DefaultExt = "gte";
             this.dialogExportarErrores.Filter = "GTE Files|*.gte";
+            // 
+            // autocompleteMenu1
+            // 
+            this.autocompleteMenu1.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("autocompleteMenu1.Colors")));
+            this.autocompleteMenu1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.autocompleteMenu1.ImageList = null;
+            this.autocompleteMenu1.Items = new string[] {
+        "entero",
+        "decimal",
+        "cadena",
+        "caracter",
+        "booleano",
+        "principal",
+        "SI",
+        "SINO",
+        "SINO_SI",
+        "MIENTRAS",
+        "HACER",
+        "DESDE",
+        "HASTA",
+        "INCREMENTO",
+        "leer",
+        "imprimir",
+        "verdadero",
+        "falso"};
+            this.autocompleteMenu1.TargetControlWrapper = null;
             // 
             // editor
             // 
@@ -243,6 +272,7 @@
         private System.Windows.Forms.SaveFileDialog dialogGuardarArchivo;
         private System.Windows.Forms.ToolStripMenuItem exportarErroresToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog dialogExportarErrores;
+        private AutocompleteMenuNS.AutocompleteMenu autocompleteMenu1;
     }
 }
 
