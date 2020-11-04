@@ -71,7 +71,7 @@ namespace _201731241_EditorDeTexto
             arbol = "digraph {";
             imprimir(raiz);
             arbol += "}";
-            Console.WriteLine(arbol);
+            //Console.WriteLine(arbol);
             return arbol;
         }
         private void imprimir(Nodo inicial)
