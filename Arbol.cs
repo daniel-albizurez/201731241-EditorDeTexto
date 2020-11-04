@@ -27,7 +27,7 @@ namespace _201731241_EditorDeTexto
             {
                 Nodo hijo = new Nodo(valor);
                 hijo.padre = this;
-                hijos.AddLast(hijo);
+                hijos.AddFirst(hijo);
             }
         }
         Nodo raiz;
@@ -71,8 +71,8 @@ namespace _201731241_EditorDeTexto
             arbol = "digraph {";
             imprimir(raiz);
             arbol += "}";
+            Console.WriteLine(arbol);
             return arbol;
-            //Console.WriteLine(arbol);
         }
         private void imprimir(Nodo inicial)
         {
