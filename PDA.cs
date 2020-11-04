@@ -26,6 +26,7 @@ public class PDA
     Dictionary<int, string> esperados = new Dictionary<int, string>();
     ArrayList errores = new ArrayList();
     Arbol arbol;
+    public string arbolSintactico { get; private set; }
 
     /**
      * Errores
@@ -213,7 +214,7 @@ public class PDA
         {
             Console.WriteLine(item);
         }
-//        arbol.imprimir();
+        arbolSintactico = arbol.imprimir();
         return errores;
     }
     public void transition(string[] info)

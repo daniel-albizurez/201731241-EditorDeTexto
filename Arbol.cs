@@ -65,17 +65,25 @@ namespace _201731241_EditorDeTexto
 
         }
 
-        public void imprimir()
+        string arbol;
+        public string imprimir()
         {
+            arbol = "digraph {";
             imprimir(raiz);
+            arbol += "}";
+            return arbol;
+            //Console.WriteLine(arbol);
         }
         private void imprimir(Nodo inicial)
         {
+            string infoNodo = "\nnodo" + inicial.numeroNodo + "[label=\"" + inicial.etiqueta+"\"];";
             foreach (Nodo item in inicial.hijos)
             {
-                Console.WriteLine("Padre: " + item.padre.etiqueta + item.padre.numeroNodo + " Hijo: " + item.etiqueta + item.numeroNodo);
+               // Console.WriteLine("Padre: " + item.padre.etiqueta + item.padre.numeroNodo + " Hijo: " + item.etiqueta + item.numeroNodo);
+                infoNodo += "\nnodo" + item.padre.numeroNodo + " -> " + "nodo" + item.numeroNodo + ";";
                 imprimir(item);
             }
+            arbol += infoNodo;
         }
     }
 }

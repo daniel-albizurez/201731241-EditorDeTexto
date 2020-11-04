@@ -36,6 +36,8 @@
             this.guardarArchivo = new System.Windows.Forms.ToolStripMenuItem();
             this.exportarErroresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.arbolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.verArbolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.lblCol = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -58,7 +60,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.editToolStripMenuItem});
+            this.editToolStripMenuItem,
+            this.arbolToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(790, 24);
@@ -109,6 +112,21 @@
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // arbolToolStripMenuItem
+            // 
+            this.arbolToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.verArbolToolStripMenuItem});
+            this.arbolToolStripMenuItem.Name = "arbolToolStripMenuItem";
+            this.arbolToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.arbolToolStripMenuItem.Text = "Arbol";
+            // 
+            // verArbolToolStripMenuItem
+            // 
+            this.verArbolToolStripMenuItem.Name = "verArbolToolStripMenuItem";
+            this.verArbolToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.verArbolToolStripMenuItem.Text = "Ver Arbol";
+            this.verArbolToolStripMenuItem.Click += new System.EventHandler(this.verArbolToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -173,6 +191,7 @@
             // 
             // txtCodigo
             // 
+            this.txtCodigo.AcceptsTab = true;
             this.autocompleteMenu1.SetAutocompleteMenu(this.txtCodigo, this.autocompleteMenu1);
             this.txtCodigo.Location = new System.Drawing.Point(12, 3);
             this.txtCodigo.Name = "txtCodigo";
@@ -273,6 +292,8 @@
         private System.Windows.Forms.ToolStripMenuItem exportarErroresToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog dialogExportarErrores;
         private AutocompleteMenuNS.AutocompleteMenu autocompleteMenu1;
+        private System.Windows.Forms.ToolStripMenuItem arbolToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem verArbolToolStripMenuItem;
     }
 }
 

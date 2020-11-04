@@ -297,7 +297,7 @@ public class AFD
             caracter = texto.ElementAt(posicion);
             estadoAnterior = estadoActual;
             estadoActual = CambiarEstado(estadoActual, caracter);
-            if (caracter == ' ' || caracter == '\n')
+            if (caracter == ' ' || caracter == '\t' || caracter == '\n')
             {
                 //Si el estado fuera de comentario se ignora
                 if (estadoActual != 11 && estadoActual != 24 && estadoActual != 13)
