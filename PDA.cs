@@ -51,6 +51,7 @@ public class PDA
 
         tabla.Add(( "I"     ,   "imprimir"     ), new string[] { "", "F", "S" });
         tabla.Add(( "I"     ,   "leer"     ), new string[] { "", "F", "S" });
+        tabla.Add(( "I"     ,   "id"     ), new string[] { "", "F", "S" });
         tabla.Add(( "I"     ,   "entero"     ), new string[] { "", "F", "S" });
         tabla.Add(( "I"     ,   "decimal"     ), new string[] { "", "F", "S" });
         tabla.Add(( "I"     ,   "booleano"     ), new string[] { "", "F", "S" });
@@ -69,6 +70,7 @@ public class PDA
         tabla.Add(( "S"     ,   "booleano"     ), new string[] { "", "D" });
         tabla.Add(( "S"     ,   "cadena"     ), new string[] { "", "D" });
         tabla.Add(( "S"     ,   "caracter"     ), new string[] { "", "D" });
+        tabla.Add(( "S"     ,   "id"     ), new string[] { "", "A" });
 
         tabla.Add(( "D"     ,   "entero"     ), new string[] { "", "D'", "id", "T" });
         tabla.Add(( "D"     ,   "decimal"     ), new string[] { "", "D'", "id", "T" });
@@ -83,8 +85,12 @@ public class PDA
         tabla.Add(( "T"     ,   "caracter"     ), new string[] { "", "caracter" });
 
         tabla.Add(( "D'"    ,   ";"         ), new string[] { "" });
-        tabla.Add(( "D'"    ,   "="         ), new string[] { "", "Ig" });
-        tabla.Add(( "D'"    ,   ","         ), new string[] { "", "D'", "id", "," });
+        tabla.Add(( "D'"    ,   "="         ), new string[] { "", "D''", "Ig" });
+        tabla.Add(( "D'"    ,   ","         ), new string[] { "", "D''"});
+        
+        //Revisar op
+        tabla.Add(( "D''"    ,   ";"         ), new string[] { "" });
+        tabla.Add(( "D''"    ,   ","         ), new string[] { "", "D'", "id", "," });
 
         tabla.Add(( "Ig"    ,   "="         ), new string[] { "", "op", "V", "=" });
 
@@ -116,6 +122,8 @@ public class PDA
         tabla.Add(( "C"    ,    "=="         ), new string[] { "", "==" });
 
         tabla.Add(( "op"    ,    ";"         ), new string[] { "" });
+        tabla.Add(( "op"    ,    "HASTA"         ), new string[] { "" });
+        tabla.Add(( "op"    ,    ","         ), new string[] { "" });
         tabla.Add(( "op"    ,    "+"         ), new string[] { "", "V", "+" });
         tabla.Add(( "op"    ,    "-"         ), new string[] { "", "V", "-" });
         tabla.Add(( "op"    ,    "*"         ), new string[] { "", "V", "*" });
@@ -141,6 +149,11 @@ public class PDA
 
         tabla.Add(( "F"    ,    ";"         ), new string[] { "", "I", ";" });
 
+        tabla.Add(("A", "id"), new string[] { "", "A'", "id" });
+
+        tabla.Add(("A'", "="), new string[] { "", "Ig" });
+        tabla.Add(("A'", "++"), new string[] { "", "++" });
+        tabla.Add(("A'", "--"), new string[] { "", "--" });
 
         /*tabla.Add(( "I"     ,   "tipo"  ), new string[] { "", "S" });
         tabla.Add(( "I"     ,   "$"     ), new string[] { "" });
