@@ -250,10 +250,10 @@ public class PDA
                 else
                 {
                     errores.Add("Se esperaba " + esp + " en línea " + info[2] + " columna " + info[3]);
-                while (stack.Peek() != "I")
-                {
-                    stack.Pop();
-                }
+                    /*stack.Clear();
+                    stack.Push("$");
+                    stack.Push("{");
+                    stack.Push("I");*/
                 }
             }
         if (stack.Peek() == "If'" && (lexema != "SINO" && lexema != "SINO_SI" ))
