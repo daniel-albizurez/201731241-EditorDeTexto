@@ -57,10 +57,10 @@ public class PDA
         tabla.Add(( "I"     ,   "booleano"     ), new string[] { "", "F", "S" });
         tabla.Add(( "I"     ,   "cadena"     ), new string[] { "", "F", "S" });
         tabla.Add(( "I"     ,   "caracter"     ), new string[] { "", "F", "S" });
-        tabla.Add(( "I"     ,   "SI"     ), new string[] { "", "If"});
-        tabla.Add(( "I"     ,   "MIENTRAS"     ), new string[] { "", "W"});
-        tabla.Add(( "I"     ,   "HACER"     ), new string[] { "", "Do"});
-        tabla.Add(( "I"     ,   "DESDE"     ), new string[] { "", "For" });
+        tabla.Add(( "I"     ,   "SI"     ), new string[] { "", "I", "If"});
+        tabla.Add(( "I"     ,   "MIENTRAS"     ), new string[] { "", "I", "W" });
+        tabla.Add(( "I"     ,   "HACER"     ), new string[] { "", "I", "Do" });
+        tabla.Add(( "I"     ,   "DESDE"     ), new string[] { "", "I", "For" });
         tabla.Add(( "I"     ,   "}"     ), new string[] { ""});
 
         tabla.Add(( "S"     ,   "imprimir"     ), new string[] { "", "Pr"});
@@ -88,7 +88,6 @@ public class PDA
         tabla.Add(( "D'"    ,   "="         ), new string[] { "", "D''", "Ig" });
         tabla.Add(( "D'"    ,   ","         ), new string[] { "", "D''"});
         
-        //Revisar op
         tabla.Add(( "D''"    ,   ";"         ), new string[] { "" });
         tabla.Add(( "D''"    ,   ","         ), new string[] { "", "D'", "id", "," });
 
@@ -193,30 +192,7 @@ public class PDA
             Console.WriteLine("Analisis completado");
         } else
         {
-            string valorFinal = stack.Peek();
-            string esperado = "";
-            if (terminales.Contains(valorFinal))
-            {
-                esperado = valorFinal;
-            } else
-            {
-                switch (valorFinal)
-                {
-                    case "I":
-                    case "If'":
-                        esperado = "}";
-                        break;
-                    case "S": 
-                    case "F":
-                    case "D'":
-                        esperado = ";";
-                        break;
-                    case "B":
-                        esperado = "{";
-                            break;
-
-                }
-            }
+            string esperado = siguiente(stack.Peek());
             if (!String.IsNullOrEmpty(esperado))
             {
                 string[] ultimoToken = (string[]) tokens[tokens.Count-2];
@@ -274,12 +250,16 @@ public class PDA
                 else
                 {
                     errores.Add("Se esperaba " + esp + " en línea " + info[2] + " columna " + info[3]);
-                    /*stack.Clear();
-                    stack.Push("$");
-                    stack.Push("{");
-                    stack.Push("I");*/
+                while (stack.Peek() != "I")
+                {
+                    stack.Pop();
+                }
                 }
             }
+        if (stack.Peek() == "If'" && (lexema != "SINO" && lexema != "SINO_SI" ))
+        {
+            stack.Pop();
+        }
             stackVal = stack.Peek();
         while (repeat)
         {
@@ -304,5 +284,36 @@ public class PDA
                 lexema = "";
             }
         }
+    }
+
+    public string siguiente(string pila)
+    {
+        string siguiente = "";
+        if (terminales.Contains(pila))
+        {
+            siguiente = pila;
+        }
+        else
+        {
+            switch (pila)
+            {
+                case "I":
+                    siguiente = "}";
+                    break;
+                case "S":
+                case "F":
+                case "D'":
+                case "A":
+                    siguiente = ";";
+                    break;
+                case "B":
+                    siguiente = "{";
+                    break;
+
+            }
+        }
+
+
+        return siguiente;
     }
 }
