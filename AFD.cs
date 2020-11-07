@@ -214,35 +214,35 @@ public class AFD
 
         // Se le asigna un color a cada estado final
         colores.Add(1, "blue");
-        colores.Add(2, "blue");
-        colores.Add(6, "blue");
-        colores.Add(7, "blue");
-        colores.Add(10, "blue");
-        colores.Add(19, "blue");
+        colores.Add(2, colores[1]);
+        colores.Add(6, colores[1]);
+        colores.Add(7, colores[1]);
+        colores.Add(10, colores[1]);
+        colores.Add(19, colores[1]);
         colores.Add(3, "mediumOrchid");
         colores.Add(5, "lightSkyblue");
         colores.Add(8, "brown");
         colores.Add(9, "black");
         colores.Add(11, "red");
-        colores.Add(12, "red");
-        colores.Add(13, "red");
-        colores.Add(14, "red");
-        colores.Add(15, "red");
+        colores.Add(12, colores[11]);
+        colores.Add(13, colores[11]);
+        colores.Add(14, colores[11]);
+        colores.Add(15, colores[11]);
         colores.Add(16, "magenta");
-        colores.Add(17, "blue");
-        colores.Add(20, "blue");
-        colores.Add(21, "blue");
-        colores.Add(22, "blue");
-        colores.Add(18, "blue");
-        colores.Add(27, "blue");
-        colores.Add(29, "blue");
+        colores.Add(17, colores[1]);
+        colores.Add(20, colores[1]);
+        colores.Add(21, colores[1]);
+        colores.Add(22, colores[1]);
+        colores.Add(18, colores[1]);
+        colores.Add(27, colores[1]);
+        colores.Add(29, colores[1]);
         colores.Add(23, "gray");
-        colores.Add(24, "gray");
-        colores.Add(25, "gray");
-        colores.Add(30, "blue");
+        colores.Add(24, colores[23]);
+        colores.Add(25, colores[23]);
+        colores.Add(30, colores[1]);
         colores.Add(31, "magenta");
         colores.Add(32, "black");
-    }
+            }
 
     //Metodo que realiza el analisis de un texto, caracter por caracter
     public ArrayList Analizar(string texto)
@@ -367,9 +367,9 @@ public class AFD
 
     public void ListarToken(string token, int estadoFinal, int fila, int columna, int posicion)
     {
-        string color =
-        colores.TryGetValue(estadoFinal, out color) ? color : "black";
         string tipo = Encontrado(estadoFinal);
+        string color = 
+            colores.TryGetValue(estadoFinal, out color) ? color : "black";
         if (estadoFinal == 34)
         {
             if (reservadas.Contains(token) || tipos.Contains(token))
@@ -391,7 +391,7 @@ public class AFD
             } else
             {
                 tipo = "error";
-                color = " black";
+                color = "black";
             }
         }
         resultados.Add(new string[] { token, tipo, fila.ToString(), columna.ToString(), color, (posicion - token.Length).ToString() });
