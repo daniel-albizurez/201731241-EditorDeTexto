@@ -212,6 +212,7 @@ public class PDA
         string[] pushVal;
         string token = info[1];
         string lexema = info[0];
+        //bool error = false;
         posicion++;
         switch (token)
         {
@@ -260,7 +261,7 @@ public class PDA
         //Console.WriteLine(lexema);
         bool repeat = true;
             string[] infoEsperado;
- /*           if (esperados.TryGetValue(posicion, out infoEsperado) && lexema != "$")
+/*            if (esperados.TryGetValue(posicion, out infoEsperado) && lexema != "$")
             {
                 if (infoEsperado[0] == lexema)
                 {
@@ -269,11 +270,9 @@ public class PDA
                 else
                 {
                     errores.Add("Se esperaba " + infoEsperado[0] + " en línea " + infoEsperado[1] + " columna " + infoEsperado[2]);
-                while (stack.Peek() != "I" && stack.Count > 2)
-                {
-                    stack.Pop();
+/*                    lexema = infoEsperado[0];
+                    error = true;
                 }
-            }
             }*/
         if (stack.Peek() == "If'" && (lexema != "SINO" && lexema != "SINO_SI" ))
         {
@@ -297,14 +296,25 @@ public class PDA
                 stack.Pop();
                 lexema = "";
             }
-/*            string esperado;
-            esperado = siguiente(stack.Peek());
-            if (!String.IsNullOrEmpty(esperado) && !esperados.ContainsKey(posicion + 1))
-                {
-                    string[] informacion = new string[] {esperado, info[2], info[3] };
-                    esperados.Add(posicion + 1, informacion);
-                }*/
+            /*if (!repeat && error)
+            {
+                lexema = info[0];
+                repeat = true;
+                error = false;
+            }*/
         }
+        
+/*        string esperado;
+        if (stack.Count>0)
+        {
+            esperado = siguiente(stack.Peek());
+            if (!String.IsNullOrEmpty(esperado))
+            {
+                int posicionEsperada = posicion + 1;
+                string[] informacion = new string[] { esperado, info[2], info[3] };
+                esperados[posicionEsperada] = informacion;
+            }
+        }*/
     }
 
     public string siguiente(string pila)
@@ -327,6 +337,7 @@ public class PDA
                 case "S":
                 case "F":
                 case "D'":
+                case "D''":
                 case "A":
                     siguiente = ";";
                     break;
@@ -336,7 +347,12 @@ public class PDA
                 case "V":
                     siguiente = "un valor o identificador";
                     break;
-
+                case "C":
+                    siguiente = "un operador logico";
+                    break;
+                case "A'":
+                    siguiente = "símbolo =";
+                    break;
             }
         }
         return siguiente;
