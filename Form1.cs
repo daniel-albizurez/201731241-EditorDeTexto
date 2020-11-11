@@ -258,17 +258,20 @@ namespace _201731241_EditorDeTexto
 
         private void verArbolToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (StreamWriter sw = new StreamWriter("arbol.dot"))
+            if (!String.IsNullOrEmpty(sintactico.arbolSintactico))
             {
+                using (StreamWriter sw = new StreamWriter("arbol.dot"))
+                {
                     sw.Write(sintactico.arbolSintactico);
-            }
+                }
                 ProcessStartInfo info = new ProcessStartInfo("cmd");
                 info.Arguments = "/c dot -Tpng arbol.dot -o arbol.png";
-                info.CreateNoWindow = true;
+                info.CreateNoWindow = false;
                 Process.Start(info).WaitForExit();
-            
-            verArbol ver = new verArbol();
-            ver.Show();
+
+                verArbol ver = new verArbol();
+                ver.Show();
+            }
         }
 
         private void exportarArbolToolStripMenuItem_Click(object sender, EventArgs e)

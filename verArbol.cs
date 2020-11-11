@@ -23,7 +23,11 @@ namespace _201731241_EditorDeTexto
         {
             SaveFileDialog guardar = new SaveFileDialog();
             string nombre = null;
+            guardar.AddExtension = true;
             guardar.DefaultExt = ".png";
+            guardar.FileName = "arbol.png";
+            guardar.OverwritePrompt = true;
+            guardar.Filter = "PNG|*.png";
             if (guardar.ShowDialog() == DialogResult.OK)
             {
                 nombre = guardar.FileName;
