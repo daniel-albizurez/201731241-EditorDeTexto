@@ -381,7 +381,7 @@ public class AFD
                 }
                 else
                 {
-                    tipo = "palabra reservada";
+                    tipo = "reservada";
                 }
             }
             else if (boolean.Contains(token))

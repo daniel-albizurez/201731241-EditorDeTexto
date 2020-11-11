@@ -23,7 +23,11 @@ public class PDA
     Dictionary<(string, string), string[]> tabla = new Dictionary<(string, string), string[]>();
     Dictionary<int, string[]> esperados = new Dictionary<int, string[]>();
     ArrayList errores = new ArrayList();
+    ArrayList imprimir = new ArrayList();
     Arbol arbol;
+    
+    bool print = false;
+    string printValue="";
     public string arbolSintactico { get; private set; }
 
     /**
@@ -98,7 +102,7 @@ public class PDA
         tabla.Add(( "bool"    ,   "id"         ), new string[] { "", "bool'", "V", "C", "V" });
         tabla.Add(( "bool'"    ,   "!"         ), new string[] { "", "bool'", "bool", "!" });
         tabla.Add(( "bool"    ,   "falso"         ), new string[] { "", "bool'", "falso" });
-        tabla.Add(( "bool"    ,   "verdadero"         ), new string[] { "", "bool'", "verdadero" });
+        tabla.Add(( "bool"    ,   "boolean"         ), new string[] { "", "bool'", "boolean" });
         tabla.Add(( "bool"    ,   "int"         ), new string[] { "", "bool'", "V", "C", "V" });
         tabla.Add(( "bool"    ,   "double"         ), new string[] { "", "bool'", "V", "C", "V" });
         tabla.Add(( "bool"    ,   "char"         ), new string[] { "", "bool'", "V", "C", "V" });
@@ -119,6 +123,7 @@ public class PDA
         tabla.Add(( "C"    ,    "=="         ), new string[] { "", "==" });
 
         tabla.Add(( "op"    ,    ";"         ), new string[] { "" });
+        tabla.Add(( "op"    ,    ")"         ), new string[] { "" });
         tabla.Add(( "op"    ,    "HASTA"         ), new string[] { "" });
         tabla.Add(( "op"    ,    ","         ), new string[] { "" });
         tabla.Add(( "op"    ,    "+"         ), new string[] { "", "V", "+" });
@@ -168,7 +173,9 @@ public class PDA
         stack.Clear();
         esperados.Clear();
         errores.Clear();
+        imprimir.Clear();
         posicion = 0;
+        print = false;
         if (stack.Count == 0)
         {
             stack.Push("$");
@@ -182,14 +189,15 @@ public class PDA
         if (stack.Count == 0)
         {
             Console.WriteLine("Analisis completado");
+            return imprimir;
         } else
         {
-            string esperado = siguiente(stack.Peek());
+/*            string esperado = siguiente(stack.Peek());
             if (!String.IsNullOrEmpty(esperado) && (tokens.Count-2)>=0)
             {
                 string[] ultimoToken = (string[]) tokens[tokens.Count-2];
                 errores.Add("Se esperaba " + esperado + " en línea " + ultimoToken[2] + " columna " + ultimoToken[3]);
-            }
+            }*/
         }
         foreach (string item in stack)
         {
@@ -217,7 +225,7 @@ public class PDA
             case "double":
             case "str":
             case "char":
-            case "bool":
+            case "boolean":
                 lexema = token;
                 break;
             /*case "numero entero":
@@ -227,13 +235,32 @@ public class PDA
             case "error":
                 lexema = "error";
                 break;
+            case "reservada":
+                break;
             default:
                 break;
+        }
+        print = (print)? lexema != ")" : lexema == "imprimir";
+        if (print && lexema != "imprimir")
+        {
+            string value = info[0];
+            if (value != "(")
+            {
+                printValue += value.Replace("\"", "");
+            }
+        }
+        else
+        {
+            if (!String.IsNullOrEmpty(printValue))
+            {
+                imprimir.Add(printValue);
+                printValue = "";
+            }
         }
         //Console.WriteLine(lexema);
         bool repeat = true;
             string[] infoEsperado;
-            if (esperados.TryGetValue(posicion, out infoEsperado) && lexema != "$")
+ /*           if (esperados.TryGetValue(posicion, out infoEsperado) && lexema != "$")
             {
                 if (infoEsperado[0] == lexema)
                 {
@@ -247,7 +274,7 @@ public class PDA
                     stack.Pop();
                 }
             }
-            }
+            }*/
         if (stack.Peek() == "If'" && (lexema != "SINO" && lexema != "SINO_SI" ))
         {
             stack.Pop();
@@ -270,13 +297,13 @@ public class PDA
                 stack.Pop();
                 lexema = "";
             }
-            string esperado;
+/*            string esperado;
             esperado = siguiente(stack.Peek());
             if (!String.IsNullOrEmpty(esperado) && !esperados.ContainsKey(posicion + 1))
                 {
                     string[] informacion = new string[] {esperado, info[2], info[3] };
                     esperados.Add(posicion + 1, informacion);
-                }
+                }*/
         }
     }
 
@@ -305,6 +332,9 @@ public class PDA
                     break;
                 case "B":
                     siguiente = "{";
+                    break;
+                case "V":
+                    siguiente = "un valor o identificador";
                     break;
 
             }

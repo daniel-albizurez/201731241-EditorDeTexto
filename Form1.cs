@@ -175,6 +175,7 @@ namespace _201731241_EditorDeTexto
                             }
                         }*/
             Guardar(false);
+            cambios = false;
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
